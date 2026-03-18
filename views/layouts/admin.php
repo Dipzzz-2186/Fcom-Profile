@@ -15,5 +15,6 @@ declare(strict_types=1);
 </head>
 <body class="admin-body">
     <?= $content ?>
+    <script src="/public/assets/js/admin.js"></script>
 </body>
 </html>

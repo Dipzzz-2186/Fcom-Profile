@@ -13,6 +13,13 @@ if ($requestPath !== '/' && is_file($filePath)) {
 $routes = [
     '/' => '/index.php',
     '/admin' => '/admin/index.php',
+    '/admin/company' => '/admin/company/index.php',
+    '/admin/about' => '/admin/about/index.php',
+    '/admin/services' => '/admin/services/index.php',
+    '/admin/navigation' => '/admin/navigation/index.php',
+    '/admin/advantages' => '/admin/advantages/index.php',
+    '/admin/clients' => '/admin/clients/index.php',
+    '/admin/contact' => '/admin/contact/index.php',
     '/admin/login' => '/admin/login.php',
     '/admin/logout' => '/admin/logout.php',
 ];
@@ -26,6 +33,13 @@ $normalizedPhpPath = $documentRoot . $requestPath . '.php';
 
 if (is_file($normalizedPhpPath)) {
     require $normalizedPhpPath;
+    return true;
+}
+
+$directoryIndexPath = rtrim($documentRoot . $requestPath, '/') . '/index.php';
+
+if (is_file($directoryIndexPath)) {
+    require $directoryIndexPath;
     return true;
 }
 

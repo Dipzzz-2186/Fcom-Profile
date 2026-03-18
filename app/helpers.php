@@ -22,6 +22,8 @@ function db(): PDO
 
 function load_site_data(): array
 {
+    ensure_client_logos_table();
+
     $site = default_site_data();
 
     $settings = db()->query('SELECT setting_key, setting_value FROM site_settings')->fetchAll();
@@ -113,11 +115,23 @@ function load_site_data(): array
         }
     }
 
+    if (db_table_exists('client_logos')) {
+        $clientLogos = db()->query('SELECT client_name, logo_path FROM client_logos ORDER BY sort_order ASC, id ASC')->fetchAll();
+        if ($clientLogos !== []) {
+            $site['clients']['items'] = array_map(static fn (array $item): array => [
+                'name' => (string) $item['client_name'],
+                'logo' => (string) $item['logo_path'],
+            ], $clientLogos);
+        }
+    }
+
     return $site;
 }
 
 function save_site_data(array $data): bool
 {
+    ensure_client_logos_table();
+
     $pdo = db();
     $pdo->beginTransaction();
 
@@ -198,6 +212,19 @@ function save_site_data(array $data): bool
             }
         }
 
+        if (db_table_exists('client_logos')) {
+            $pdo->exec('DELETE FROM client_logos');
+            $clientStmt = $pdo->prepare('INSERT INTO client_logos (client_name, logo_path, sort_order) VALUES (:client_name, :logo_path, :sort_order)');
+
+            foreach ($data['clients']['items'] as $index => $item) {
+                $clientStmt->execute([
+                    'client_name' => $item['name'],
+                    'logo_path' => $item['logo'],
+                    'sort_order' => $index + 1,
+                ]);
+            }
+        }
+
         $pdo->commit();
         return true;
     } catch (Throwable $exception) {
@@ -269,6 +296,9 @@ function default_site_data(): array
                 'Struktur CMS sederhana sehingga admin non-teknis tetap mudah mengelola konten.',
                 'Desain responsif untuk desktop maupun mobile.',
             ],
+        ],
+        'clients' => [
+            'items' => [],
         ],
         'contact' => [
             'address' => 'Jl. Strategis Bisnis No. 18, Jakarta',
@@ -395,6 +425,83 @@ function map_solution_groups(array $titles, array $labelsByGroup, array $hrefsBy
     return $groups;
 }
 
+function map_logo_items(array $names, array $logos): array
+{
+    $items = [];
+    $count = max(count($names), count($logos));
+
+    for ($index = 0; $index < $count; $index++) {
+        $name = trim((string) ($names[$index] ?? ''));
+        $logo = trim((string) ($logos[$index] ?? ''));
+
+        if ($name === '' && $logo === '') {
+            continue;
+        }
+
+        $items[] = [
+            'name' => $name,
+            'logo' => $logo,
+        ];
+    }
+
+    return $items;
+}
+
+function handle_logo_uploads(array $files, array $existingPaths = []): array
+{
+    $normalized = [];
+    $names = $files['name'] ?? [];
+    $tmpNames = $files['tmp_name'] ?? [];
+    $errors = $files['error'] ?? [];
+    $count = max(count($names), count($existingPaths));
+
+    $uploadDir = BASE_PATH . '/public/assets/img/clients';
+
+    if (! is_dir($uploadDir)) {
+        mkdir($uploadDir, 0775, true);
+    }
+
+    for ($index = 0; $index < $count; $index++) {
+        $existing = trim((string) ($existingPaths[$index] ?? ''));
+        $error = (int) ($errors[$index] ?? UPLOAD_ERR_NO_FILE);
+        $tmpName = (string) ($tmpNames[$index] ?? '');
+        $originalName = (string) ($names[$index] ?? '');
+
+        if ($error === UPLOAD_ERR_NO_FILE) {
+            $normalized[] = $existing;
+            continue;
+        }
+
+        if ($error !== UPLOAD_ERR_OK || $tmpName === '' || ! is_uploaded_file($tmpName)) {
+            $normalized[] = $existing;
+            continue;
+        }
+
+        $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+        $allowedExtensions = ['png', 'jpg', 'jpeg', 'webp', 'svg'];
+
+        if (! in_array($extension, $allowedExtensions, true)) {
+            $normalized[] = $existing;
+            continue;
+        }
+
+        $baseName = preg_replace('/[^a-z0-9]+/i', '-', pathinfo($originalName, PATHINFO_FILENAME));
+        $baseName = trim((string) $baseName, '-');
+        $baseName = $baseName !== '' ? strtolower($baseName) : 'client-logo';
+        $fileName = $baseName . '-' . bin2hex(random_bytes(4)) . '.' . $extension;
+        $targetPath = $uploadDir . '/' . $fileName;
+
+        if (! move_uploaded_file($tmpName, $targetPath)) {
+            $normalized[] = $existing;
+            continue;
+        }
+
+        $normalized[] = '/public/assets/img/clients/' . $fileName;
+    }
+
+    return $normalized;
+}
+
 function db_table_exists(string $tableName): bool
 {
     static $cache = [];
@@ -409,4 +516,26 @@ function db_table_exists(string $tableName): bool
     $cache[$tableName] = $stmt->fetchColumn() !== false;
 
     return $cache[$tableName];
+}
+
+function ensure_client_logos_table(): void
+{
+    static $initialized = false;
+
+    if ($initialized) {
+        return;
+    }
+
+    db()->exec(
+        'CREATE TABLE IF NOT EXISTS client_logos (
+            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            client_name VARCHAR(150) NOT NULL,
+            logo_path VARCHAR(255) NOT NULL,
+            sort_order INT UNSIGNED NOT NULL DEFAULT 1,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        )'
+    );
+
+    $initialized = true;
 }

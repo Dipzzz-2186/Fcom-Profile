@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const header = document.querySelector('.site-header');
+    const heroCopy = document.querySelector('.hero-copy');
+    const heroNoise = document.querySelector('.hero-noise');
+    const heroArcs = document.querySelectorAll('.hero-arc');
+    const heroNetworks = document.querySelectorAll('.hero-network');
     const revealItems = document.querySelectorAll('.reveal');
 
     if ('IntersectionObserver' in window) {
@@ -56,9 +61,54 @@ document.addEventListener('DOMContentLoaded', () => {
         counters.forEach((counter) => counterObserver.observe(counter));
     }
 
+    let ticking = false;
+
+    const applyScrollEffects = () => {
+        const scrollY = window.scrollY || window.pageYOffset;
+        const heroOffset = Math.min(scrollY, 360);
+
+        header?.classList.toggle('is-scrolled', scrollY > 24);
+
+        if (heroCopy) {
+            heroCopy.style.transform = `translateY(${heroOffset * 0.12}px)`;
+        }
+
+        if (heroNoise) {
+            heroNoise.style.transform = `translateY(${heroOffset * 0.08}px) scale(1.02)`;
+        }
+
+        heroArcs.forEach((arc, index) => {
+            const direction = index % 2 === 0 ? 1 : -1;
+            arc.style.transform = `translateX(-50%) translateY(${heroOffset * (0.1 + (index * 0.02))}px) scale(${1 + (heroOffset / 6000) * direction})`;
+        });
+
+        heroNetworks.forEach((network, index) => {
+            const direction = index === 0 ? -1 : 1;
+            network.style.transform = `translateX(${heroOffset * 0.05 * direction}px) translateY(${heroOffset * 0.06}px)`;
+        });
+
+        ticking = false;
+    };
+
+    const onScroll = () => {
+        if (ticking) {
+            return;
+        }
+
+        ticking = true;
+        window.requestAnimationFrame(applyScrollEffects);
+    };
+
+    applyScrollEffects();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
     const slider = document.querySelector('[data-hero-slider]');
     const solutionsToggle = document.querySelector('[data-solutions-toggle]');
     const solutionsItem = document.querySelector('.nav-item-has-dropdown');
+    const problemButtons = Array.from(document.querySelectorAll('[data-problem-stage]'));
+    const problemPanel = document.querySelector('[data-problem-panel]');
+    const problemTitle = document.querySelector('[data-problem-title]');
+    const problemBody = document.querySelector('[data-problem-body]');
 
     if (solutionsToggle && solutionsItem) {
         solutionsToggle.addEventListener('click', () => {
@@ -71,6 +121,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 solutionsItem.classList.remove('is-open');
                 solutionsToggle.setAttribute('aria-expanded', 'false');
             }
+        });
+    }
+
+    if (problemButtons.length && problemPanel && problemTitle && problemBody) {
+        const setProblemStage = (button) => {
+            problemButtons.forEach((item) => {
+                item.classList.toggle('is-active', item === button);
+            });
+
+            problemPanel.classList.remove('is-switching');
+            window.requestAnimationFrame(() => {
+                problemTitle.textContent = button.getAttribute('data-stage-title') || '';
+                problemBody.textContent = button.getAttribute('data-stage-body') || '';
+                problemPanel.classList.add('is-switching');
+            });
+        };
+
+        problemButtons.forEach((button) => {
+            button.addEventListener('click', () => setProblemStage(button));
+        });
+
+        problemPanel.addEventListener('animationend', () => {
+            problemPanel.classList.remove('is-switching');
         });
     }
 

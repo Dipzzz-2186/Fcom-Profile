@@ -2,9 +2,35 @@
 
 declare(strict_types=1);
 
-$heroImage = '/public/assets/img/Fcom%20Company%20Profile%20.png';
 $heroCards = array_slice($site['products']['items'], 0, 3);
-$heroSignals = array_slice($site['advantages']['items'], 0, 4);
+$heroSignals = array_slice($site['advantages']['items'], 0, 3);
+$profileImage = '/public/assets/img/Fcom%20Company%20Profile%20.png';
+$problemStages = [
+    [
+        'key' => 'gather',
+        'label' => 'Gather',
+        'title' => 'Gather',
+        'body' => 'Mengumpulkan informasi bisnis, hambatan operasional, dan kebutuhan utama agar arah solusi yang dibangun benar-benar relevan.',
+    ],
+    [
+        'key' => 'analyze',
+        'label' => 'Analyze',
+        'title' => 'Analyze',
+        'body' => 'Informasi yang terkumpul dianalisis secara menyeluruh untuk menyusun rencana solusi IT yang tepat bagi kebutuhan bisnis Anda.',
+    ],
+    [
+        'key' => 'deploy',
+        'label' => 'Deploy',
+        'title' => 'Deploy',
+        'body' => 'Solusi yang sudah dirancang diterapkan secara terstruktur agar proses implementasi berjalan efisien dan minim gangguan.',
+    ],
+    [
+        'key' => 'design',
+        'label' => 'Design',
+        'title' => 'Design',
+        'body' => 'Merancang struktur solusi, alur sistem, dan pengalaman penggunaan agar teknologi yang dibangun mudah dipakai dan dikembangkan.',
+    ],
+];
 ?>
 <header class="site-header">
     <div class="hero-topbar">
@@ -28,13 +54,9 @@ $heroSignals = array_slice($site['advantages']['items'], 0, 4);
                     </div>
                 </div>
             </div>
-            <a href="#technology">Technology</a>
-            <a href="#testimonials">Testimonials</a>
-            <a href="#resources">Resources</a>
         </nav>
         <div class="topbar-actions">
-            <a class="ghost-action" href="/admin/login">Log In</a>
-            <a class="solid-action" href="#kontak">Get Started</a>
+            <a class="solid-action" href="#vision">Get Started</a>
         </div>
     </div>
 </header>
@@ -44,188 +66,123 @@ $heroSignals = array_slice($site['advantages']['items'], 0, 4);
         <div class="hero-noise"></div>
         <div class="hero-arc hero-arc-top"></div>
         <div class="hero-arc hero-arc-bottom"></div>
-
-        <div class="hero-network hero-network-left" aria-hidden="true">
-            <span class="network-node node-top">FC</span>
-            <span class="network-node node-bottom">CM</span>
-        </div>
-        <div class="hero-network hero-network-right" aria-hidden="true">
-            <span class="network-node node-top">PR</span>
-            <span class="network-node node-bottom">AI</span>
-        </div>
+        <div class="hero-grid-lines" aria-hidden="true"></div>
 
         <div class="hero-copy reveal is-visible">
-            <span class="hero-badge">FCOM Company Profile</span>
-            <div class="hero-visual-shell">
-                <div class="hero-visual">
-                    <div class="hero-visual-glow"></div>
-                    <img src="<?= e($heroImage) ?>" alt="Fcom Company Profile">
-                    <span class="hero-visual-pill">FCOM</span>
+            <h1>Your Trusted IT Partner</h1>
+            <p class="hero-lead">Empowering Businesses Through Integrated Technology Solutions</p>
+            <div class="hero-cta">
+                <a class="hero-primary" href="#vision">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="vision" class="section statement-section statement-section-vision">
+        <div class="statement-shell reveal">
+            <div class="statement-media">
+                <img src="<?= e($profileImage) ?>" alt="FCOM team collaboration">
+            </div>
+            <div class="statement-body">
+                <div class="statement-brand">
+                    <img src="/public/assets/img/fcom.png" alt="FCOM">
+                </div>
+                <h2>Vision</h2>
+                <p class="statement-lead">Menyediakan solusi IT untuk membantu bisnis di Indonesia menuju era digital.</p>
+                <div class="statement-accent" aria-hidden="true"></div>
+                <div class="statement-points">
+                    <article>
+                        <h3>Target Audience</h3>
+                        <p>Perusahaan dan pelaku bisnis di Indonesia.</p>
+                    </article>
+                    <article>
+                        <h3>Goal</h3>
+                        <p>Membantu perusahaan dan bisnis beralih ke teknologi dan sistem digital.</p>
+                    </article>
+                    <article>
+                        <h3>Focus</h3>
+                        <p>Menyediakan solusi IT yang mendukung dan mempermudah transformasi digital.</p>
+                    </article>
                 </div>
             </div>
-            <h1><?= e($site['company']['headline']) ?></h1>
-            <p class="hero-lead"><?= e($site['company']['description']) ?></p>
-            <div class="hero-cta">
-                <a class="hero-primary" href="#layanan">Schedule Demo</a>
-                <a class="hero-secondary" href="#tentang">Learn More</a>
+        </div>
+    </section>
+
+    <section id="mission" class="section statement-section statement-section-mission">
+        <div class="statement-shell statement-shell-reverse reveal">
+            <div class="statement-body">
+                <div class="statement-brand">
+                    <img src="/public/assets/img/fcom.png" alt="FCOM">
+                </div>
+                <h2>Missions</h2>
+                <p class="statement-lead">Menyederhanakan kompleksitas IT agar perusahaan dapat bergerak lebih cepat dan efisien.</p>
+                <div class="statement-points statement-points-single">
+                    <article>
+                        <h3>Objective</h3>
+                        <p>Mengurangi kesulitan dalam pengelolaan teknologi informasi.</p>
+                    </article>
+                    <article>
+                        <h3>Approach</h3>
+                        <p>Berfokus pada penyederhanaan proses dan teknologi IT agar lebih mudah dipahami dan dikelola.</p>
+                    </article>
+                    <article>
+                        <h3>Benefit</h3>
+                        <p>Membantu bisnis menghadapi tantangan IT secara lebih efisien dan efektif.</p>
+                    </article>
+                </div>
             </div>
-            <p class="hero-caption">Company presence built to earn trust from clients, partners, and investors.</p>
-        </div>
-
-        <div class="signal-grid reveal">
-            <?php foreach ($heroSignals as $signal): ?>
-                <article class="signal-card">
-                    <span></span>
-                    <p><?= e($signal) ?></p>
-                </article>
-            <?php endforeach; ?>
-        </div>
-
-        <div class="hero-stats reveal delay-1">
-            <article class="hero-stat">
-                <span>Years Active</span>
-                <strong data-count="<?= e($site['company']['years']) ?>"><?= e($site['company']['years']) ?></strong>
-            </article>
-            <article class="hero-stat">
-                <span>Projects</span>
-                <strong data-count="<?= e($site['company']['projects']) ?>"><?= e($site['company']['projects']) ?></strong>
-            </article>
-            <article class="hero-stat">
-                <span>Clients</span>
-                <strong data-count="<?= e($site['company']['clients']) ?>"><?= e($site['company']['clients']) ?></strong>
-            </article>
-        </div>
-
-        <div class="hero-card-row reveal delay-1">
-            <?php foreach ($heroCards as $item): ?>
-                <article class="hero-mini-card">
-                    <div class="card-icon">&#8599;</div>
-                    <h2><?= e($item['name']) ?></h2>
-                    <p><?= e($item['description']) ?></p>
-                </article>
-            <?php endforeach; ?>
-        </div>
-    </section>
-
-    <section id="technology" class="section intro-section">
-        <div class="section-head reveal">
-            <span class="section-label">Technology</span>
-            <h2>Presentasi bisnis yang rapi, modern, dan terasa premium sejak first impression.</h2>
-            <p>Halaman ini disusun untuk menonjolkan struktur informasi, visual yang lebih tajam, dan company presence yang siap dipakai untuk pitch, partner meeting, atau showcase brand.</p>
-        </div>
-        <div class="intro-grid">
-            <article class="intro-card reveal">
-                <span>Identity</span>
-                <h3><?= e($site['about']['title']) ?></h3>
-                <p><?= e($site['about']['content']) ?></p>
-            </article>
-            <article class="intro-card reveal delay-1">
-                <span>Value</span>
-                <h3>Build trust through clarity</h3>
-                <p>Visual yang bersih dan storytelling yang terstruktur membantu FCOM tampil lebih meyakinkan di mata calon klien.</p>
-            </article>
-        </div>
-    </section>
-
-    <section id="layanan" class="section services-section">
-        <div class="section-head reveal">
-            <span class="section-label">Overview</span>
-            <h2><?= e($site['products']['title']) ?></h2>
-            <p>Layanan utama ditampilkan dalam format card agar cepat dipahami tanpa kehilangan kesan premium.</p>
-        </div>
-        <div class="services-grid">
-            <?php foreach ($site['products']['items'] as $index => $item): ?>
-                <article class="service-card reveal<?= $index > 1 ? ' delay-1' : '' ?>">
-                    <span class="service-index"><?= e(str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT)) ?></span>
-                    <h3><?= e($item['name']) ?></h3>
-                    <p><?= e($item['description']) ?></p>
-                    <a href="#kontak">Consult Now</a>
-                </article>
-            <?php endforeach; ?>
-        </div>
-    </section>
-
-    <section id="testimonials" class="section story-section">
-        <div class="story-grid">
-            <article class="story-card reveal">
-                <span class="section-label">Testimonials</span>
-                <h2>Company profile yang terasa siap tampil di level yang lebih serius.</h2>
-                <p><?= e($site['company']['description']) ?></p>
-            </article>
-            <div class="story-points">
-                <article class="story-point reveal">
-                    <strong>Terstruktur</strong>
-                    <p>Alur baca dibuat ringkas sehingga calon klien cepat menangkap inti bisnis dan layanan FCOM.</p>
-                </article>
-                <article class="story-point reveal delay-1">
-                    <strong>Meyakinkan</strong>
-                    <p>Tampilan visual diarahkan agar brand terasa lebih matang, profesional, dan tidak generik.</p>
-                </article>
-                <article class="story-point reveal delay-1">
-                    <strong>Scalable</strong>
-                    <p>Fondasi desainnya mudah diperluas ke portfolio, studi kasus, atau halaman produk yang lebih detail.</p>
-                </article>
+            <div class="statement-media statement-media-angled">
+                <div class="statement-angle statement-angle-top" aria-hidden="true"></div>
+                <img src="<?= e($profileImage) ?>" alt="FCOM technical support">
+                <div class="statement-angle statement-angle-bottom" aria-hidden="true"></div>
             </div>
         </div>
     </section>
 
-    <section id="resources" class="section resources-section">
-        <div class="section-head reveal">
-            <span class="section-label">Resources</span>
-            <h2><?= e($site['advantages']['title']) ?></h2>
-        </div>
-        <div class="resource-grid reveal delay-1">
-            <?php foreach ($site['advantages']['items'] as $advantage): ?>
-                <article class="resource-card">
-                    <span></span>
-                    <p><?= e($advantage) ?></p>
-                </article>
-            <?php endforeach; ?>
-        </div>
-    </section>
-
-    <section id="proses" class="section process-section">
-        <div class="section-head reveal">
-            <span class="section-label">Process</span>
-            <h2>Cara kerja yang ringkas, sistematis, dan mudah dikembangkan.</h2>
-        </div>
-        <div class="process-grid">
-            <article class="process-card reveal">
-                <strong>01</strong>
-                <h3>Analisis</h3>
-                <p>Memahami target audiens, tujuan presentasi, dan posisi brand yang ingin ditampilkan.</p>
-            </article>
-            <article class="process-card reveal delay-1">
-                <strong>02</strong>
-                <h3>Structure</h3>
-                <p>Menyusun urutan konten yang paling kuat agar halaman terasa fokus dan tidak berantakan.</p>
-            </article>
-            <article class="process-card reveal">
-                <strong>03</strong>
-                <h3>Visual</h3>
-                <p>Menggabungkan identitas FCOM dengan layout yang lebih modern, gelap, dan berkelas.</p>
-            </article>
-            <article class="process-card reveal delay-1">
-                <strong>04</strong>
-                <h3>Refinement</h3>
-                <p>Merapikan detail interaksi, keterbacaan, dan kesiapan konten untuk ekspansi berikutnya.</p>
+    <section id="problems" class="section problem-section">
+        <div class="problem-stage-grid reveal delay-1">
+            <div class="problem-stage-visual">
+                <?php foreach ($problemStages as $stage): ?>
+                    <button
+                        class="stage-word stage-word-<?= e($stage['key']) ?><?= $stage['key'] === 'analyze' ? ' is-active' : '' ?>"
+                        type="button"
+                        data-problem-stage
+                        data-stage-key="<?= e($stage['key']) ?>"
+                        data-stage-title="<?= e($stage['title']) ?>"
+                        data-stage-body="<?= e($stage['body']) ?>"
+                    >
+                        <span class="stage-word-label"><?= e($stage['label']) ?></span>
+                        <img src="/public/assets/img/logo1.png" alt="" aria-hidden="true">
+                    </button>
+                <?php endforeach; ?>
+            </div>
+            <article class="problem-stage-card" data-problem-panel>
+                <div class="problem-stage-card-head" data-problem-title>Analyze</div>
+                <div class="problem-stage-card-body" data-problem-body>
+                    Informasi yang terkumpul dianalisis secara menyeluruh untuk menyusun rencana solusi IT yang tepat bagi kebutuhan bisnis Anda.
+                </div>
             </article>
         </div>
     </section>
 
-    <section id="kontak" class="section contact-section">
-        <div class="contact-shell reveal">
-            <div>
-                <span class="section-label">Get Started</span>
-                <h2>Mari bangun company profile yang lebih kuat untuk FCOM.</h2>
-                <p>Kalau arah visual ini sudah sesuai, tahap berikutnya bisa dilanjutkan ke halaman detail layanan, portfolio, atau versi CMS yang lebih lengkap.</p>
+    <?php if (($site['clients']['items'] ?? []) !== []): ?>
+        <section id="clients" class="section clients-section">
+            <div class="clients-shell reveal">
+                <div class="section-head clients-head">
+                    <h2>Our Client</h2>
+                    <p>Kepercayaan dari berbagai partner dan client yang telah bekerja bersama FCOM.</p>
+                </div>
+                <div class="clients-marquee">
+                    <div class="clients-track">
+                        <?php for ($loop = 0; $loop < 2; $loop++): ?>
+                            <?php foreach ($site['clients']['items'] as $client): ?>
+                                <article class="client-logo-card">
+                                    <img src="<?= e($client['logo']) ?>" alt="<?= e($client['name']) ?>">
+                                </article>
+                            <?php endforeach; ?>
+                        <?php endfor; ?>
+                    </div>
+                </div>
             </div>
-            <div class="contact-meta">
-                <p><strong>Alamat</strong><span><?= e($site['contact']['address']) ?></span></p>
-                <p><strong>Email</strong><span><?= e($site['contact']['email']) ?></span></p>
-                <p><strong>Telepon</strong><span><?= e($site['contact']['phone']) ?></span></p>
-                <p><strong>Jam Operasional</strong><span><?= e($site['contact']['hours']) ?></span></p>
-            </div>
-        </div>
-    </section>
+        </section>
+    <?php endif; ?>
 </main>

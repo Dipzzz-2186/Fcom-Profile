@@ -50,6 +50,15 @@ CREATE TABLE IF NOT EXISTS solution_items (
         ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS client_logos (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    client_name VARCHAR(150) NOT NULL,
+    logo_path VARCHAR(255) NOT NULL,
+    sort_order INT UNSIGNED NOT NULL DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS admin_users (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
@@ -111,6 +120,15 @@ ON DUPLICATE KEY UPDATE
 group_id = VALUES(group_id),
 label = VALUES(label),
 href = VALUES(href),
+sort_order = VALUES(sort_order);
+
+INSERT INTO client_logos (id, client_name, logo_path, sort_order) VALUES
+(1, 'FCOM Partner A', '/public/assets/img/fcom.png', 1),
+(2, 'FCOM Partner B', '/public/assets/img/logo1.png', 2),
+(3, 'FCOM Partner C', '/public/assets/img/logo2.png', 3)
+ON DUPLICATE KEY UPDATE
+client_name = VALUES(client_name),
+logo_path = VALUES(logo_path),
 sort_order = VALUES(sort_order);
 
 INSERT INTO admin_users (username, password_hash) VALUES

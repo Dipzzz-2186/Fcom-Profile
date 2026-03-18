@@ -25,7 +25,7 @@ declare(strict_types=1);
             <?php endif; ?>
         </div>
 
-        <form method="post" class="cms-form">
+        <form method="post" enctype="multipart/form-data" class="cms-form">
             <div class="form-card">
                 <h2>Informasi Utama</h2>
                 <div class="form-grid">
@@ -124,6 +124,22 @@ declare(strict_types=1);
                     <label class="full">Daftar Keunggulan (satu baris satu item)
                         <textarea name="advantages_items" rows="6" required><?= e(implode(PHP_EOL, $site['advantages']['items'])) ?></textarea>
                     </label>
+                </div>
+            </div>
+
+            <div class="form-card">
+                <h2>Our Client</h2>
+                <p class="muted">Isi nama client lalu upload file logo langsung dari komputer.</p>
+                <div class="form-grid">
+                    <?php for ($index = 0; $index < 8; $index++): ?>
+                        <label>Nama Client <?= $index + 1 ?>
+                            <input type="text" name="client_name[]" value="<?= e($site['clients']['items'][$index]['name'] ?? '') ?>">
+                        </label>
+                        <label>File Logo <?= $index + 1 ?>
+                            <input type="file" name="client_logo[]" accept=".png,.jpg,.jpeg,.webp,.svg">
+                            <input type="hidden" name="client_logo_existing[]" value="<?= e($site['clients']['items'][$index]['logo'] ?? '') ?>">
+                        </label>
+                    <?php endfor; ?>
                 </div>
             </div>
 
