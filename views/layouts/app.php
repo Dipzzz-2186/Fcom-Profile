@@ -13,7 +13,16 @@ declare(strict_types=1);
     <link rel="apple-touch-icon" href="/public/assets/img/logo2.png">
     <link rel="stylesheet" href="/public/assets/css/site.css">
 </head>
-<body>
+<body class="page-shell is-loading">
+    <div class="site-intro" aria-hidden="true">
+        <div class="site-intro-inner">
+            <div class="site-intro-mark">
+                <img src="/public/assets/img/fcom.png" alt="">
+            </div>
+            <div class="site-intro-line"></div>
+            <p class="site-intro-copy">Integrated Technology Solutions</p>
+        </div>
+    </div>
     <?= $content ?>
     <script src="/public/assets/js/site.js"></script>
 </body>
