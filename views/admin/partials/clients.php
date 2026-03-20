@@ -23,16 +23,40 @@ $clientItems = $site['clients']['items'] ?? [];
                         <strong>Client <?= $index + 1 ?></strong>
                         <button type="button" class="client-remove-button" data-remove-client>Hapus</button>
                     </div>
-                    <div class="form-grid">
-                        <label>Nama Client
+                    <div class="form-grid client-item-grid">
+                        <label class="client-name-field">Nama Client
                             <input type="text" name="client_name[]" value="<?= e($client['name']) ?>">
                         </label>
-                        <label>Ganti Logo
-                            <input type="file" name="client_logo[]" accept=".png,.jpg,.jpeg,.webp,.svg">
-                            <input type="hidden" name="client_logo_existing[]" value="<?= e($client['logo']) ?>">
-                        </label>
+                        <div class="client-logo-editor">
+                            <span class="client-field-label">Logo Client</span>
+                            <div class="client-logo-preview-card">
+                                <div class="client-logo-preview-frame">
+                                    <?php if (($client['logo'] ?? '') !== ''): ?>
+                                        <img
+                                            src="<?= e($client['logo']) ?>"
+                                            alt="<?= e($client['name'] !== '' ? $client['name'] : 'Client logo') ?>"
+                                            data-logo-preview
+                                        >
+                                    <?php else: ?>
+                                        <span class="client-logo-placeholder" data-logo-placeholder>Belum ada logo</span>
+                                        <img src="" alt="" hidden data-logo-preview>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="client-logo-actions">
+                                    <button type="button" class="ghost-admin-button" data-toggle-logo-edit>Edit Gambar</button>
+                                    <span class="muted">Klik edit kalau mau ganti logo client.</span>
+                                </div>
+                            </div>
+                            <div class="client-logo-input-wrap" data-logo-input-wrap hidden>
+                                <input type="file" name="client_logo[]" accept=".png,.jpg,.jpeg,.webp,.svg" data-client-logo-input>
+                                <input type="hidden" name="client_logo_existing[]" value="<?= e($client['logo']) ?>">
+                            </div>
+                        </div>
                     </div>
-                    <p class="muted current-logo-note">Logo saat ini: <?= e($client['logo']) ?></p>
+                    <div class="current-logo-note">
+                        <span class="current-logo-label">Logo saat ini</span>
+                        <span class="current-logo-path"><?= e($client['logo']) ?></span>
+                    </div>
                 </article>
             <?php endforeach; ?>
         <?php endif; ?>
@@ -59,15 +83,31 @@ $clientItems = $site['clients']['items'] ?? [];
             <strong>Client Baru</strong>
             <button type="button" class="client-remove-button" data-remove-client>Hapus</button>
         </div>
-        <div class="form-grid">
-            <label>Nama Client
+        <div class="form-grid client-item-grid">
+            <label class="client-name-field">Nama Client
                 <input type="text" name="client_name[]" value="">
             </label>
-            <label>Logo Client
-                <input type="file" name="client_logo[]" accept=".png,.jpg,.jpeg,.webp,.svg">
+            <div class="client-logo-editor">
+                <span class="client-field-label">Logo Client</span>
+                <div class="client-logo-preview-card">
+                    <div class="client-logo-preview-frame">
+                        <span class="client-logo-placeholder" data-logo-placeholder>Belum ada logo</span>
+                        <img src="" alt="" hidden data-logo-preview>
+                    </div>
+                    <div class="client-logo-actions">
+                        <button type="button" class="ghost-admin-button" data-toggle-logo-edit>Edit Gambar</button>
+                        <span class="muted">Upload logo untuk client baru.</span>
+                    </div>
+                </div>
+                <div class="client-logo-input-wrap" data-logo-input-wrap hidden>
+                    <input type="file" name="client_logo[]" accept=".png,.jpg,.jpeg,.webp,.svg" data-client-logo-input>
+                </div>
                 <input type="hidden" name="client_logo_existing[]" value="">
-            </label>
+            </div>
         </div>
-        <p class="muted current-logo-note">Belum ada logo tersimpan.</p>
+        <div class="current-logo-note">
+            <span class="current-logo-label">Logo saat ini</span>
+            <span class="current-logo-path">Belum ada logo tersimpan.</span>
+        </div>
     </article>
 </template>

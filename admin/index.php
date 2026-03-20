@@ -8,4 +8,4 @@ if (! is_admin_logged_in()) {
     redirect('/admin/login');
 }
 
-redirect('/admin/company');
+redirect('/admin/dashboard');

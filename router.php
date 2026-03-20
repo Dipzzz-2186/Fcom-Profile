@@ -13,6 +13,7 @@ if ($requestPath !== '/' && is_file($filePath)) {
 $routes = [
     '/' => '/index.php',
     '/admin' => '/admin/index.php',
+    '/admin/dashboard' => '/admin/dashboard/index.php',
     '/admin/company' => '/admin/company/index.php',
     '/admin/about' => '/admin/about/index.php',
     '/admin/services' => '/admin/services/index.php',

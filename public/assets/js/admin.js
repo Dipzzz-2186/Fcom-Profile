@@ -32,10 +32,49 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    const bindLogoEditor = (scope) => {
+        const editors = scope.querySelectorAll('.client-logo-editor');
+
+        editors.forEach((editor) => {
+            const toggleButton = editor.querySelector('[data-toggle-logo-edit]');
+            const inputWrap = editor.querySelector('[data-logo-input-wrap]');
+            const fileInput = editor.querySelector('[data-client-logo-input]');
+            const preview = editor.querySelector('[data-logo-preview]');
+            const placeholder = editor.querySelector('[data-logo-placeholder]');
+
+            if (!toggleButton || !inputWrap || !fileInput || !preview) {
+                return;
+            }
+
+            toggleButton.addEventListener('click', () => {
+                inputWrap.hidden = !inputWrap.hidden;
+                if (!inputWrap.hidden) {
+                    fileInput.focus();
+                }
+            });
+
+            fileInput.addEventListener('change', () => {
+                const file = fileInput.files && fileInput.files[0];
+
+                if (!file) {
+                    return;
+                }
+
+                const previewUrl = URL.createObjectURL(file);
+                preview.src = previewUrl;
+                preview.hidden = false;
+                if (placeholder) {
+                    placeholder.hidden = true;
+                }
+            });
+        });
+    };
+
     const createDraftItem = () => {
         const fragment = template.content.cloneNode(true);
         draftItem = fragment.firstElementChild;
         modalSlot.replaceChildren(draftItem);
+        bindLogoEditor(modalSlot);
     };
 
     const openModal = () => {
@@ -88,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    bindLogoEditor(document);
     refreshEmptyState();
     renumberItems();
 });
