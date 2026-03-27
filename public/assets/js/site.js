@@ -189,7 +189,8 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         problemButtons.forEach((button) => {
-            button.addEventListener('click', () => setProblemStage(button));
+            button.addEventListener('mouseenter', () => setProblemStage(button));
+            button.addEventListener('focus', () => setProblemStage(button));
         });
 
         problemPanel.addEventListener('animationend', () => {

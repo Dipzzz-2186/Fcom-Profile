@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 $heroCards = array_slice($site['products']['items'], 0, 3);
 $heroSignals = array_slice($site['advantages']['items'], 0, 3);
+$clientItems = $site['clients']['items'] ?? [];
+$clientPreviewCount = min(4, count($clientItems));
 $profileImage = '/public/assets/img/Fcom%20Company%20Profile%20.png';
 $heroWallpaper = '/public/assets/img/wallpaper2.jpg';
+$mapEmbedUrl = 'https://www.google.com/maps?q=PT.%20Fcom%20Inti%20Teknologi%2C%20Jl.%20Tanjung%20Duren%20Barat%203%20No.%2012b%2C%20Jakarta%20Barat&output=embed';
 $problemStages = [
     [
         'key' => 'gather',
@@ -90,23 +93,22 @@ $problemStages = [
         </div>
     </section>
 
-    <?php if (($site['clients']['items'] ?? []) !== []): ?>
+    <?php if ($clientItems !== []): ?>
         <section id="clients" class="section clients-section clients-section-compact">
             <div class="clients-shell clients-shell-compact reveal">
                 <div class="clients-compact-head">
-                    <h2>Our Client</h2>
-                    <p>Big companies that have partnered with us</p>
-                    <span class="clients-compact-count"><?= count($site['clients']['items']) ?> Partner</span>
+                    <div class="clients-compact-title-group">
+                        <p>Big companies that have partnered with us</p>
+                    </div>
+                    <span class="clients-compact-count"><?= str_pad((string) $clientPreviewCount, 2, '0', STR_PAD_LEFT) ?> of <?= str_pad((string) count($clientItems), 2, '0', STR_PAD_LEFT) ?> Partner</span>
                 </div>
-                <div class="clients-compact-marquee">
+                <div class="clients-compact-marquee" aria-label="Partner logos">
                     <div class="clients-compact-track">
-                        <?php for ($loop = 0; $loop < 2; $loop++): ?>
-                            <?php foreach ($site['clients']['items'] as $client): ?>
-                                <article class="client-logo-card client-logo-card-compact">
-                                    <img src="<?= e($client['logo']) ?>" alt="<?= e($client['name']) ?>">
-                                </article>
-                            <?php endforeach; ?>
-                        <?php endfor; ?>
+                        <?php foreach ($clientItems as $client): ?>
+                            <article class="client-logo-card client-logo-card-compact">
+                                <img src="<?= e($client['logo']) ?>" alt="<?= e($client['name']) ?>">
+                            </article>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
@@ -115,6 +117,9 @@ $problemStages = [
 
     <section id="vision" class="section statement-section statement-section-vision">
         <div class="statement-shell reveal">
+            <div class="statement-media">
+                <img src="<?= e($profileImage) ?>" alt="FCOM Company Profile">
+            </div>
             <div class="statement-body">
                 <div class="statement-brand">
                     <img src="/public/assets/img/fcom.png" alt="FCOM">
@@ -142,7 +147,10 @@ $problemStages = [
     </section>
 
     <section id="mission" class="section statement-section statement-section-mission">
-        <div class="statement-shell reveal">
+        <div class="statement-shell statement-shell-reverse reveal">
+            <div class="statement-media">
+                <img src="<?= e($profileImage) ?>" alt="FCOM Company Profile">
+            </div>
             <div class="statement-body">
                 <div class="statement-brand">
                     <img src="/public/assets/img/fcom.png" alt="FCOM">
@@ -191,6 +199,51 @@ $problemStages = [
                     Informasi yang terkumpul dianalisis secara menyeluruh untuk menyusun rencana solusi IT yang tepat bagi kebutuhan bisnis Anda.
                 </div>
             </article>
+        </div>
+    </section>
+
+    <section id="location" class="section location-section">
+        <div class="location-map-shell">
+            <iframe
+                src="<?= e($mapEmbedUrl) ?>"
+                title="FCOM Location Map"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowfullscreen
+            ></iframe>
+        </div>
+
+        <div class="location-footer">
+            <div class="location-footer-grid">
+                <div class="location-footer-column">
+                    <h3>Company</h3>
+                    <a href="#overview">About Us</a>
+                    <a href="#vision">Vision</a>
+                    <a href="#mission">Mission</a>
+                </div>
+                <div class="location-footer-column">
+                    <h3>Contact &amp; Support</h3>
+                    <a href="mailto:<?= e($site['contact']['email']) ?>">Email Us</a>
+                    <a href="tel:<?= e(preg_replace('/\s+/', '', (string) $site['contact']['phone'])) ?>"><?= e($site['contact']['phone']) ?></a>
+                    <p><?= e($site['contact']['hours']) ?></p>
+                </div>
+                <div class="location-footer-column location-footer-column-wide">
+                    <h3><?= e($site['company']['name']) ?></h3>
+                    <p><?= e($site['contact']['address']) ?></p>
+                    <p><a href="mailto:<?= e($site['contact']['email']) ?>"><?= e($site['contact']['email']) ?></a></p>
+                </div>
+            </div>
+
+            <div class="location-footer-bottom">
+                <div class="location-footer-brand">
+                    <img src="/public/assets/img/fcom.png" alt="FCOM">
+                </div>
+                <div class="location-footer-meta">
+                    <span>&copy; <?= date('Y') ?> FCOM</span>
+                    <span>Contact us</span>
+                    <span><?= e($site['contact']['phone']) ?></span>
+                </div>
+            </div>
         </div>
     </section>
 
