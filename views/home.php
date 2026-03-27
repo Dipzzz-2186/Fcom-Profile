@@ -115,64 +115,67 @@ $problemStages = [
         </section>
     <?php endif; ?>
 
-    <section id="vision" class="section statement-section statement-section-vision">
-        <div class="statement-shell reveal">
-            <div class="statement-media">
-                <img src="<?= e($profileImage) ?>" alt="FCOM Company Profile">
-            </div>
-            <div class="statement-body">
-                <div class="statement-brand">
-                    <img src="/public/assets/img/fcom.png" alt="FCOM">
-                </div>
-                <p class="statement-eyebrow">Our Vision</p>
+    <section id="vision" class="section statement-section statement-section-combined">
+        <div class="statement-combined-shell reveal">
+            <article class="statement-combined-panel statement-combined-panel-vision">
+                <div class="statement-combined-icon statement-combined-icon-eye" aria-hidden="true"></div>
+                <p class="statement-combined-eyebrow">Our</p>
                 <h2>Vision</h2>
-                <p class="statement-lead">Menjadi partner teknologi yang membantu bisnis di Indonesia beradaptasi, tumbuh, dan bergerak lebih siap di era digital.</p>
-                <div class="statement-accent" aria-hidden="true"></div>
-                <div class="statement-points">
-                    <article>
-                        <h3>Target Audience</h3>
-                        <p>Perusahaan dan pelaku bisnis di Indonesia yang ingin memperkuat sistem kerja dan transformasi digitalnya.</p>
+                <p class="statement-combined-copy">Menyediakan solusi IT untuk membantu bisnis di Indonesia menuju era digital.</p>
+                <div class="statement-combined-detail-list statement-combined-detail-list-vision">
+                    <article class="statement-detail-item">
+                        <span class="statement-detail-icon statement-detail-icon-audience" aria-hidden="true"></span>
+                        <div class="statement-detail-copy">
+                            <h3>Target Audience</h3>
+                            <p>Perusahaan dan pelaku bisnis di Indonesia.</p>
+                        </div>
                     </article>
-                    <article>
-                        <h3>Goal</h3>
-                        <p>Mendorong bisnis beralih ke teknologi dan sistem digital yang lebih efisien, relevan, dan mudah dijalankan.</p>
+                    <article class="statement-detail-item">
+                        <span class="statement-detail-icon statement-detail-icon-goal" aria-hidden="true"></span>
+                        <div class="statement-detail-copy">
+                            <h3>Goal</h3>
+                            <p>Membantu perusahaan dan bisnis beralih ke teknologi dan sistem digital.</p>
+                        </div>
                     </article>
-                    <article>
-                        <h3>Focus</h3>
-                        <p>Menyediakan solusi IT yang praktis, terarah, dan benar-benar mendukung proses transformasi digital.</p>
+                    <article class="statement-detail-item">
+                        <span class="statement-detail-icon statement-detail-icon-focus" aria-hidden="true"></span>
+                        <div class="statement-detail-copy">
+                            <h3>Focus</h3>
+                            <p>Menyediakan solusi IT yang mendukung dan mempermudah transformasi digital.</p>
+                        </div>
                     </article>
                 </div>
-            </div>
-        </div>
-    </section>
+            </article>
 
-    <section id="mission" class="section statement-section statement-section-mission">
-        <div class="statement-shell statement-shell-reverse reveal">
-            <div class="statement-media">
-                <img src="<?= e($profileImage) ?>" alt="FCOM Company Profile">
-            </div>
-            <div class="statement-body">
-                <div class="statement-brand">
-                    <img src="/public/assets/img/fcom.png" alt="FCOM">
+            <article id="mission" class="statement-combined-panel statement-combined-panel-mission">
+                <div class="statement-combined-icon statement-combined-icon-target" aria-hidden="true"></div>
+                <p class="statement-combined-eyebrow">Our</p>
+                <h2>Mission</h2>
+                <p class="statement-combined-copy">Menyederhanakan kompleksitas IT</p>
+                <div class="statement-combined-detail-list">
+                    <article class="statement-detail-item">
+                        <span class="statement-detail-icon statement-detail-icon-objective" aria-hidden="true"></span>
+                        <div class="statement-detail-copy">
+                            <h3>Objective</h3>
+                            <p>Mengurangi kesulitan dalam pengelolaan teknologi informasi.</p>
+                        </div>
+                    </article>
+                    <article class="statement-detail-item">
+                        <span class="statement-detail-icon statement-detail-icon-approach" aria-hidden="true"></span>
+                        <div class="statement-detail-copy">
+                            <h3>Approach</h3>
+                            <p>Berfokus pada penyederhanaan proses dan teknologi IT agar lebih mudah dipahami dan dikelola.</p>
+                        </div>
+                    </article>
+                    <article class="statement-detail-item">
+                        <span class="statement-detail-icon statement-detail-icon-benefit" aria-hidden="true"></span>
+                        <div class="statement-detail-copy">
+                            <h3>Benefit</h3>
+                            <p>Membantu bisnis menghadapi tantangan IT secara lebih efisien dan efektif.</p>
+                        </div>
+                    </article>
                 </div>
-                <p class="statement-eyebrow">Our Mission</p>
-                <h2>Missions</h2>
-                <p class="statement-lead">Menyederhanakan kompleksitas IT agar perusahaan dapat bergerak lebih cepat dan efisien.</p>
-                <div class="statement-points statement-points-single">
-                    <article>
-                        <h3>Objective</h3>
-                        <p>Mengurangi kesulitan dalam pengelolaan teknologi informasi.</p>
-                    </article>
-                    <article>
-                        <h3>Approach</h3>
-                        <p>Berfokus pada penyederhanaan proses dan teknologi IT agar lebih mudah dipahami dan dikelola.</p>
-                    </article>
-                    <article>
-                        <h3>Benefit</h3>
-                        <p>Membantu bisnis menghadapi tantangan IT secara lebih efisien dan efektif.</p>
-                    </article>
-                </div>
-            </div>
+            </article>
         </div>
     </section>
 
