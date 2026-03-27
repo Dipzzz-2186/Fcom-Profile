@@ -14,25 +14,25 @@ $problemStages = [
         'key' => 'gather',
         'label' => 'Gather',
         'title' => 'Gather',
-        'body' => 'Mengumpulkan informasi bisnis, hambatan operasional, dan kebutuhan utama agar arah solusi yang dibangun benar-benar relevan.',
+        'body' => 'Mengumpulkan informasi untuk memahami kebutuhan perusahaan.',
     ],
     [
         'key' => 'analyze',
         'label' => 'Analyze',
         'title' => 'Analyze',
-        'body' => 'Informasi yang terkumpul dianalisis secara menyeluruh untuk menyusun rencana solusi IT yang tepat bagi kebutuhan bisnis Anda.',
+        'body' => 'Menganalisis informasi yang telah dikumpulkan untuk menyusun rencana solusi IT yang sesuai dengan kebutuhan dan tantangan bisnis Anda.',
     ],
     [
         'key' => 'deploy',
         'label' => 'Deploy',
         'title' => 'Deploy',
-        'body' => 'Solusi yang sudah dirancang diterapkan secara terstruktur agar proses implementasi berjalan efisien dan minim gangguan.',
+        'body' => 'Menerapkan dan mengonfigurasi solusi IT agar dapat berjalan dengan baik sesuai dengan rancangan yang telah dibuat.',
     ],
     [
         'key' => 'design',
         'label' => 'Design',
         'title' => 'Design',
-        'body' => 'Merancang struktur solusi, alur sistem, dan pengalaman penggunaan agar teknologi yang dibangun mudah dipakai dan dikembangkan.',
+        'body' => 'Merancang solusi IT yang paling sesuai untuk menjawab kebutuhan dan tantangan bisnis Anda.',
     ],
 ];
 ?>
@@ -177,7 +177,11 @@ $problemStages = [
     </section>
 
     <section id="problems" class="section problem-section">
-        <div class="problem-stage-grid reveal delay-1">
+        <div class="problem-section-shell reveal delay-1">
+            <header class="problem-section-head">
+                <h2>Our IT Solution Services Stages</h2>
+            </header>
+            <div class="problem-stage-grid">
             <div class="problem-stage-visual">
                 <?php foreach ($problemStages as $stage): ?>
                     <button
@@ -189,7 +193,7 @@ $problemStages = [
                         data-stage-body="<?= e($stage['body']) ?>"
                     >
                         <span class="stage-word-label"><?= e($stage['label']) ?></span>
-                        <img src="/public/assets/img/logo1.png" alt="" aria-hidden="true">
+                        <img src="/public/assets/img/logo1.png" alt="" aria-hidden="true" draggable="false">
                     </button>
                 <?php endforeach; ?>
             </div>
@@ -199,6 +203,7 @@ $problemStages = [
                     Informasi yang terkumpul dianalisis secara menyeluruh untuk menyusun rencana solusi IT yang tepat bagi kebutuhan bisnis Anda.
                 </div>
             </article>
+            </div>
         </div>
     </section>
 

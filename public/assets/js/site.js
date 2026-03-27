@@ -175,7 +175,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (problemButtons.length && problemPanel && problemTitle && problemBody) {
+        let activeProblemKey = problemButtons.find((button) => button.classList.contains('is-active'))?.getAttribute('data-stage-key') || null;
+
         const setProblemStage = (button) => {
+            const nextProblemKey = button.getAttribute('data-stage-key');
+            if (nextProblemKey && nextProblemKey === activeProblemKey) {
+                return;
+            }
+
             problemButtons.forEach((item) => {
                 item.classList.toggle('is-active', item === button);
             });
@@ -185,6 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 problemTitle.textContent = button.getAttribute('data-stage-title') || '';
                 problemBody.textContent = button.getAttribute('data-stage-body') || '';
                 problemPanel.classList.add('is-switching');
+                activeProblemKey = nextProblemKey;
             });
         };
 

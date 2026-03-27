@@ -948,19 +948,37 @@ body.intro-complete .hero-copy {
     line-height: 1.4;
 }
 
-.problem-stage-grid {
+.problem-section-shell {
     position: relative;
     z-index: 1;
+    width: min(1400px, calc(100% - 72px));
+    margin: 0 auto;
+}
+
+.problem-section-head {
+    margin-bottom: 34px;
+    text-align: center;
+}
+
+.problem-section-head h2 {
+    margin: 0;
+    color: #415166;
+    font-size: clamp(1.8rem, 2.8vw, 3rem);
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+.problem-stage-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
-    gap: 72px;
+    grid-template-columns: minmax(0, 0.95fr) minmax(360px, 0.85fr);
+    gap: 40px;
     align-items: center;
 }
 
 .problem-stage-visual {
     position: relative;
-    width: min(100%, 620px);
-    min-height: 440px;
+    width: min(100%, 520px);
+    min-height: 390px;
     margin: 0 auto;
 }
 
@@ -984,15 +1002,15 @@ body.intro-complete .hero-copy {
     padding: 0;
     cursor: pointer;
     width: 190px;
-    height: 170px;
-    transition: transform 0.25s ease, opacity 0.25s ease, color 0.25s ease, filter 0.25s ease;
+    height: 172px;
+    transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease, color 0.3s ease, filter 0.3s ease;
     transform-origin: center;
 }
 
 .stage-word:hover,
 .stage-word.is-active {
-    transform: translateY(-6px) scale(1.03);
-    filter: saturate(1.08);
+    transform: translateY(-10px) scale(1.06);
+    filter: saturate(1.14);
 }
 
 .stage-word:focus-visible {
@@ -1003,49 +1021,60 @@ body.intro-complete .hero-copy {
 .stage-word-label {
     position: absolute;
     color: #1f55c8;
-    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    font-size: clamp(1.3rem, 1.9vw, 1.8rem);
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.02em;
     line-height: 1;
     white-space: nowrap;
+    transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1), letter-spacing 0.3s ease, color 0.3s ease;
 }
 
 .stage-word img {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 178px;
+    width: 172px;
     height: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
     transform: translate(-50%, -50%);
     filter: drop-shadow(12px 14px 14px rgba(40, 65, 112, 0.24));
-    transition: transform 0.25s ease, filter 0.25s ease;
+    transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
 }
 
 .stage-word:hover img,
 .stage-word.is-active img {
-    transform: translate(-50%, -50%) scale(1.04);
-    filter: drop-shadow(14px 18px 18px rgba(40, 65, 112, 0.28));
+    transform: translate(-50%, -50%) scale(1.09) rotate(-3deg);
+    filter: drop-shadow(18px 22px 24px rgba(40, 65, 112, 0.34));
+}
+
+.stage-word:hover .stage-word-label,
+.stage-word.is-active .stage-word-label {
+    transform: scale(1.05);
+    letter-spacing: 0.04em;
+    color: #184fd1;
 }
 
 .stage-word-gather {
     top: 18px;
-    left: 88px;
+    left: 62px;
 }
 
 .stage-word-analyze {
     top: 18px;
-    right: 88px;
+    right: 62px;
 }
 
 .stage-word-deploy {
     bottom: 18px;
-    left: 88px;
+    left: 62px;
 }
 
 .stage-word-design {
     bottom: 18px;
-    right: 88px;
+    right: 62px;
 }
 
 .stage-word-analyze img,
@@ -1057,34 +1086,34 @@ body.intro-complete .hero-copy {
 .stage-word-gather.is-active img,
 .stage-word-design:hover img,
 .stage-word-design.is-active img {
-    transform: translate(-50%, -50%) scale(1.04);
+    transform: translate(-50%, -50%) scale(1.09) rotate(-3deg);
 }
 
 .stage-word-analyze:hover img,
 .stage-word-analyze.is-active img,
 .stage-word-deploy:hover img,
 .stage-word-deploy.is-active img {
-    transform: translate(-50%, -50%) scaleX(-1) scale(1.04);
+    transform: translate(-50%, -50%) scaleX(-1) scale(1.09) rotate(-3deg);
 }
 
 .stage-word-gather .stage-word-label {
     top: 68px;
-    left: -106px;
+    left: -96px;
 }
 
 .stage-word-analyze .stage-word-label {
     top: 68px;
-    right: -128px;
+    right: -108px;
 }
 
 .stage-word-deploy .stage-word-label {
     bottom: 68px;
-    left: -108px;
+    left: -98px;
 }
 
 .stage-word-design .stage-word-label {
     bottom: 68px;
-    right: -110px;
+    right: -92px;
 }
 
 .problem-stage-card {
@@ -1095,27 +1124,42 @@ body.intro-complete .hero-copy {
     background: #ffffff;
     box-shadow: 0 12px 28px rgba(54, 79, 124, 0.18);
     transform-origin: left center;
-    min-height: 190px;
+    width: min(100%, 740px);
+    min-height: 152px;
+    margin-right: 0;
+    will-change: transform, box-shadow, filter;
 }
 
 .problem-stage-card-head {
-    padding: 18px 20px;
+    padding: 16px 18px;
     background: #1f55c8;
     color: #ffffff;
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     font-weight: 800;
     text-transform: uppercase;
+    transform-origin: left center;
+    will-change: transform, opacity;
 }
 
 .problem-stage-card-body {
-    padding: 24px 20px 30px;
+    padding: 18px 18px 22px;
     color: #111111;
-    font-size: 1.05rem;
+    font-size: 0.9rem;
     line-height: 1.5;
+    transform-origin: left center;
+    will-change: transform, opacity;
 }
 
 .problem-stage-card.is-switching {
-    animation: problemCardSwap 0.35s ease;
+    animation: problemCardSwap 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.problem-stage-card.is-switching .problem-stage-card-head {
+    animation: problemCardHeadSwap 0.46s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.problem-stage-card.is-switching .problem-stage-card-body {
+    animation: problemCardBodySwap 0.52s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .clients-section {
@@ -1411,13 +1455,45 @@ body.intro-complete .hero-copy {
 
 @keyframes problemCardSwap {
     0% {
-        opacity: 0.56;
-        transform: translateY(12px) scale(0.98);
+        opacity: 0.68;
+        transform: translateY(16px) scale(0.975);
+        box-shadow: 0 6px 18px rgba(54, 79, 124, 0.1);
+    }
+
+    55% {
+        opacity: 1;
+        transform: translateY(-4px) scale(1.012);
+        box-shadow: 0 18px 36px rgba(54, 79, 124, 0.22);
     }
 
     100% {
         opacity: 1;
         transform: translateY(0) scale(1);
+        box-shadow: 0 12px 28px rgba(54, 79, 124, 0.18);
+    }
+}
+
+@keyframes problemCardHeadSwap {
+    0% {
+        opacity: 0;
+        transform: translateY(10px) scaleX(0.98);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scaleX(1);
+    }
+}
+
+@keyframes problemCardBodySwap {
+    0% {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
@@ -1746,6 +1822,18 @@ body.intro-complete .hero-copy {
     .hero-card-row {
         margin-top: 40px;
         grid-template-columns: 1fr;
+    }
+
+    .problem-section-shell {
+        width: calc(100% - 22px);
+    }
+
+    .problem-section-head {
+        margin-bottom: 22px;
+    }
+
+    .problem-section-head h2 {
+        font-size: 2rem;
     }
 
     .problem-stage-grid {
