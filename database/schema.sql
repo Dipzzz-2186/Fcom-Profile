@@ -42,6 +42,8 @@ CREATE TABLE IF NOT EXISTS solution_items (
     group_id INT UNSIGNED NOT NULL,
     label VARCHAR(150) NOT NULL,
     href VARCHAR(255) NOT NULL DEFAULT '#',
+    slug VARCHAR(180) NOT NULL DEFAULT '',
+    content TEXT NOT NULL,
     sort_order INT UNSIGNED NOT NULL DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -111,15 +113,17 @@ ON DUPLICATE KEY UPDATE
 title = VALUES(title),
 sort_order = VALUES(sort_order);
 
-INSERT INTO solution_items (id, group_id, label, href, sort_order) VALUES
-(1, 1, 'Internet Of Things', '#layanan', 1),
-(2, 1, 'Business Software', '#layanan', 2),
-(3, 2, 'Managed Services', '#proses', 1),
-(4, 2, 'On-Demand Services', '#kontak', 2)
+INSERT INTO solution_items (id, group_id, label, href, slug, content, sort_order) VALUES
+(1, 1, 'Internet Of Things', '/solutions/internet-of-things', 'internet-of-things', 'Solusi Internet of Things untuk menghubungkan perangkat, memantau data operasional, dan membantu bisnis mengambil keputusan lebih cepat.', 1),
+(2, 1, 'Business Software', '/solutions/business-software', 'business-software', 'Aplikasi bisnis terintegrasi yang membantu perusahaan mengelola proses kerja, data, dan kolaborasi secara lebih efisien.', 2),
+(3, 2, 'Managed Services', '/solutions/managed-services', 'managed-services', 'Layanan pengelolaan sistem dan infrastruktur IT secara berkelanjutan agar operasional bisnis tetap stabil dan aman.', 1),
+(4, 2, 'On-Demand Services', '/solutions/on-demand-services', 'on-demand-services', 'Dukungan teknis fleksibel sesuai kebutuhan bisnis, mulai dari konsultasi, implementasi, hingga penyesuaian solusi khusus.', 2)
 ON DUPLICATE KEY UPDATE
 group_id = VALUES(group_id),
 label = VALUES(label),
 href = VALUES(href),
+slug = VALUES(slug),
+content = VALUES(content),
 sort_order = VALUES(sort_order);
 
 INSERT INTO client_logos (id, client_name, logo_path, sort_order) VALUES

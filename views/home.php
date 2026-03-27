@@ -43,39 +43,27 @@ $problemStages = [
             <img src="/public/assets/img/fcom.png" alt="<?= e($site['company']['name']) ?>">
         </a>
         <div class="topbar-actions">
-            <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-sidebar">
-                <strong>Menu</strong>
-            </button>
+            <nav class="site-desktop-nav" aria-label="Primary navigation">
+                <div class="site-desktop-dropdown" data-solutions-dropdown>
+                    <button class="site-desktop-link site-desktop-dropdown-toggle" type="button" data-solutions-toggle aria-expanded="false">
+                        Solutions
+                    </button>
+                    <div class="site-desktop-dropdown-panel" data-solutions-panel>
+                        <?php foreach ($site['solutions']['groups'] as $group): ?>
+                            <div class="site-desktop-dropdown-group">
+                                <h3><?= e($group['title']) ?></h3>
+                                <?php foreach ($group['items'] as $item): ?>
+                                    <a href="<?= e($item['href']) ?>"><?= e($item['label']) ?></a>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <a href="/about" class="site-desktop-link">About Us</a>
+            </nav>
         </div>
     </div>
 </header>
-
-<aside class="site-sidebar" id="site-sidebar" data-site-sidebar aria-hidden="true">
-    <div class="site-sidebar-panel">
-        <div class="site-sidebar-head">
-            <p>Navigation</p>
-            <button class="site-sidebar-close" type="button" data-menu-close aria-label="Close menu">Close</button>
-        </div>
-        <nav class="site-sidebar-nav">
-            <a href="#overview">Overview</a>
-            <a href="#vision">Vision</a>
-            <a href="#mission">Mission</a>
-            <button class="site-sidebar-group-toggle" type="button" data-sidebar-solutions-toggle aria-expanded="false">Solutions</button>
-            <div class="site-sidebar-solutions" data-sidebar-solutions>
-                <?php foreach ($site['solutions']['groups'] as $group): ?>
-                    <div class="site-sidebar-group">
-                        <h3><?= e($group['title']) ?></h3>
-                        <?php foreach ($group['items'] as $item): ?>
-                            <a href="<?= e($item['href']) ?>"><?= e($item['label']) ?></a>
-                        <?php endforeach; ?>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-            <a href="#clients">Clients</a>
-            <a href="#problems">Process</a>
-        </nav>
-    </div>
-</aside>
 
 <main class="fcom-home">
     <section id="overview" class="hero-panel">
@@ -83,7 +71,7 @@ $problemStages = [
 
         <div class="hero-copy reveal is-visible">
             <div class="hero-cta">
-                <a class="hero-primary" href="#vision">Get Started</a>
+                <a class="hero-primary" href="/about">Get Started</a>
             </div>
             <h1>FCOM</h1>
             <p class="hero-lead">Integrated technology solutions for businesses ready to move faster.</p>
@@ -114,70 +102,6 @@ $problemStages = [
             </div>
         </section>
     <?php endif; ?>
-
-    <section id="vision" class="section statement-section statement-section-combined">
-        <div class="statement-combined-shell reveal">
-            <article class="statement-combined-panel statement-combined-panel-vision">
-                <div class="statement-combined-icon statement-combined-icon-eye" aria-hidden="true"></div>
-                <p class="statement-combined-eyebrow">Our</p>
-                <h2>Vision</h2>
-                <p class="statement-combined-copy">Menyediakan solusi IT untuk membantu bisnis di Indonesia menuju era digital.</p>
-                <div class="statement-combined-detail-list statement-combined-detail-list-vision">
-                    <article class="statement-detail-item">
-                        <span class="statement-detail-icon statement-detail-icon-audience" aria-hidden="true"></span>
-                        <div class="statement-detail-copy">
-                            <h3>Target Audience</h3>
-                            <p>Perusahaan dan pelaku bisnis di Indonesia.</p>
-                        </div>
-                    </article>
-                    <article class="statement-detail-item">
-                        <span class="statement-detail-icon statement-detail-icon-goal" aria-hidden="true"></span>
-                        <div class="statement-detail-copy">
-                            <h3>Goal</h3>
-                            <p>Membantu perusahaan dan bisnis beralih ke teknologi dan sistem digital.</p>
-                        </div>
-                    </article>
-                    <article class="statement-detail-item">
-                        <span class="statement-detail-icon statement-detail-icon-focus" aria-hidden="true"></span>
-                        <div class="statement-detail-copy">
-                            <h3>Focus</h3>
-                            <p>Menyediakan solusi IT yang mendukung dan mempermudah transformasi digital.</p>
-                        </div>
-                    </article>
-                </div>
-            </article>
-
-            <article id="mission" class="statement-combined-panel statement-combined-panel-mission">
-                <div class="statement-combined-icon statement-combined-icon-target" aria-hidden="true"></div>
-                <p class="statement-combined-eyebrow">Our</p>
-                <h2>Mission</h2>
-                <p class="statement-combined-copy">Menyederhanakan kompleksitas IT</p>
-                <div class="statement-combined-detail-list">
-                    <article class="statement-detail-item">
-                        <span class="statement-detail-icon statement-detail-icon-objective" aria-hidden="true"></span>
-                        <div class="statement-detail-copy">
-                            <h3>Objective</h3>
-                            <p>Mengurangi kesulitan dalam pengelolaan teknologi informasi.</p>
-                        </div>
-                    </article>
-                    <article class="statement-detail-item">
-                        <span class="statement-detail-icon statement-detail-icon-approach" aria-hidden="true"></span>
-                        <div class="statement-detail-copy">
-                            <h3>Approach</h3>
-                            <p>Berfokus pada penyederhanaan proses dan teknologi IT agar lebih mudah dipahami dan dikelola.</p>
-                        </div>
-                    </article>
-                    <article class="statement-detail-item">
-                        <span class="statement-detail-icon statement-detail-icon-benefit" aria-hidden="true"></span>
-                        <div class="statement-detail-copy">
-                            <h3>Benefit</h3>
-                            <p>Membantu bisnis menghadapi tantangan IT secara lebih efisien dan efektif.</p>
-                        </div>
-                    </article>
-                </div>
-            </article>
-        </div>
-    </section>
 
     <section id="problems" class="section problem-section">
         <div class="problem-section-shell reveal delay-1">
@@ -225,9 +149,9 @@ $problemStages = [
             <div class="location-footer-grid">
                 <div class="location-footer-column">
                     <h3>Company</h3>
-                    <a href="#overview">About Us</a>
-                    <a href="#vision">Vision</a>
-                    <a href="#mission">Mission</a>
+                    <a href="/about">About Us</a>
+                    <a href="/about#vision">Vision</a>
+                    <a href="/about#mission">Mission</a>
                 </div>
                 <div class="location-footer-column">
                     <h3>Contact &amp; Support</h3>

@@ -23,6 +23,7 @@ function db(): PDO
 function load_site_data(): array
 {
     ensure_client_logos_table();
+    ensure_solution_items_table();
 
     $site = default_site_data();
 
@@ -97,7 +98,7 @@ function load_site_data(): array
     if (db_table_exists('solution_groups') && db_table_exists('solution_items')) {
         $solutionGroups = db()->query('SELECT id, title FROM solution_groups ORDER BY sort_order ASC, id ASC')->fetchAll();
         if ($solutionGroups !== []) {
-            $itemStmt = db()->prepare('SELECT label, href FROM solution_items WHERE group_id = :group_id ORDER BY sort_order ASC, id ASC');
+            $itemStmt = db()->prepare('SELECT label, href, slug, content FROM solution_items WHERE group_id = :group_id ORDER BY sort_order ASC, id ASC');
             $site['solutions']['groups'] = [];
 
             foreach ($solutionGroups as $group) {
@@ -108,7 +109,9 @@ function load_site_data(): array
                     'title' => (string) $group['title'],
                     'items' => array_map(static fn (array $item): array => [
                         'label' => (string) $item['label'],
+                        'slug' => (string) $item['slug'],
                         'href' => (string) $item['href'],
+                        'content' => (string) $item['content'],
                     ], $items),
                 ];
             }
@@ -131,6 +134,7 @@ function load_site_data(): array
 function save_site_data(array $data): bool
 {
     ensure_client_logos_table();
+    ensure_solution_items_table();
 
     $pdo = db();
     $pdo->beginTransaction();
@@ -191,7 +195,7 @@ function save_site_data(array $data): bool
             $pdo->exec('DELETE FROM solution_groups');
 
             $groupStmt = $pdo->prepare('INSERT INTO solution_groups (title, sort_order) VALUES (:title, :sort_order)');
-            $itemStmt = $pdo->prepare('INSERT INTO solution_items (group_id, label, href, sort_order) VALUES (:group_id, :label, :href, :sort_order)');
+            $itemStmt = $pdo->prepare('INSERT INTO solution_items (group_id, label, href, slug, content, sort_order) VALUES (:group_id, :label, :href, :slug, :content, :sort_order)');
 
             foreach ($data['solutions']['groups'] as $groupIndex => $group) {
                 $groupStmt->execute([
@@ -206,6 +210,8 @@ function save_site_data(array $data): bool
                         'group_id' => $groupId,
                         'label' => $item['label'],
                         'href' => $item['href'],
+                        'slug' => $item['slug'],
+                        'content' => $item['content'],
                         'sort_order' => $itemIndex + 1,
                     ]);
                 }
@@ -275,15 +281,35 @@ function default_site_data(): array
                 [
                     'title' => 'Our Products',
                     'items' => [
-                        ['label' => 'Internet Of Things', 'href' => '#layanan'],
-                        ['label' => 'Business Software', 'href' => '#layanan'],
+                        [
+                            'label' => 'Internet Of Things',
+                            'slug' => 'internet-of-things',
+                            'href' => '/solutions/internet-of-things',
+                            'content' => 'Solusi Internet of Things untuk menghubungkan perangkat, memantau data operasional, dan membantu bisnis mengambil keputusan lebih cepat.',
+                        ],
+                        [
+                            'label' => 'Business Software',
+                            'slug' => 'business-software',
+                            'href' => '/solutions/business-software',
+                            'content' => 'Aplikasi bisnis terintegrasi yang membantu perusahaan mengelola proses kerja, data, dan kolaborasi secara lebih efisien.',
+                        ],
                     ],
                 ],
                 [
                     'title' => 'Our Services',
                     'items' => [
-                        ['label' => 'Managed Services', 'href' => '#proses'],
-                        ['label' => 'On-Demand Services', 'href' => '#kontak'],
+                        [
+                            'label' => 'Managed Services',
+                            'slug' => 'managed-services',
+                            'href' => '/solutions/managed-services',
+                            'content' => 'Layanan pengelolaan sistem dan infrastruktur IT secara berkelanjutan agar operasional bisnis tetap stabil dan aman.',
+                        ],
+                        [
+                            'label' => 'On-Demand Services',
+                            'slug' => 'on-demand-services',
+                            'href' => '/solutions/on-demand-services',
+                            'content' => 'Dukungan teknis fleksibel sesuai kebutuhan bisnis, mulai dari konsultasi, implementasi, hingga penyesuaian solusi khusus.',
+                        ],
                     ],
                 ],
             ],
@@ -386,7 +412,7 @@ function map_items(array $names, array $descriptions): array
     return $items;
 }
 
-function map_solution_groups(array $titles, array $labelsByGroup, array $hrefsByGroup): array
+function map_solution_groups(array $titles, array $labelsByGroup, array $contentsByGroup): array
 {
     $groups = [];
     $groupCount = count($titles);
@@ -394,21 +420,25 @@ function map_solution_groups(array $titles, array $labelsByGroup, array $hrefsBy
     for ($groupIndex = 0; $groupIndex < $groupCount; $groupIndex++) {
         $title = trim((string) ($titles[$groupIndex] ?? ''));
         $labels = $labelsByGroup[$groupIndex] ?? [];
-        $hrefs = $hrefsByGroup[$groupIndex] ?? [];
+        $contents = $contentsByGroup[$groupIndex] ?? [];
         $items = [];
-        $itemCount = max(count($labels), count($hrefs));
+        $itemCount = max(count($labels), count($contents));
 
         for ($itemIndex = 0; $itemIndex < $itemCount; $itemIndex++) {
             $label = trim((string) ($labels[$itemIndex] ?? ''));
-            $href = trim((string) ($hrefs[$itemIndex] ?? ''));
+            $content = trim((string) ($contents[$itemIndex] ?? ''));
 
-            if ($label === '' && $href === '') {
+            if ($label === '' && $content === '') {
                 continue;
             }
 
+            $slug = slugify($label !== '' ? $label : ('solution-' . ($itemIndex + 1)));
+
             $items[] = [
                 'label' => $label,
-                'href' => $href !== '' ? $href : '#',
+                'slug' => $slug,
+                'href' => '/solutions/' . $slug,
+                'content' => $content !== '' ? $content : 'Konten solusi ini akan segera diperbarui.',
             ];
         }
 
@@ -518,6 +548,30 @@ function db_table_exists(string $tableName): bool
     return $cache[$tableName];
 }
 
+function db_column_exists(string $tableName, string $columnName): bool
+{
+    static $cache = [];
+    $cacheKey = $tableName . '.' . $columnName;
+
+    if (array_key_exists($cacheKey, $cache)) {
+        return $cache[$cacheKey];
+    }
+
+    $stmt = db()->prepare(
+        'SELECT COUNT(*) FROM information_schema.COLUMNS
+         WHERE TABLE_SCHEMA = :schema_name AND TABLE_NAME = :table_name AND COLUMN_NAME = :column_name'
+    );
+    $stmt->execute([
+        'schema_name' => DB_NAME,
+        'table_name' => $tableName,
+        'column_name' => $columnName,
+    ]);
+
+    $cache[$cacheKey] = (int) $stmt->fetchColumn() > 0;
+
+    return $cache[$cacheKey];
+}
+
 function ensure_client_logos_table(): void
 {
     static $initialized = false;
@@ -538,4 +592,103 @@ function ensure_client_logos_table(): void
     );
 
     $initialized = true;
+}
+
+function ensure_solution_items_table(): void
+{
+    static $initialized = false;
+
+    if ($initialized) {
+        return;
+    }
+
+    db()->exec(
+        'CREATE TABLE IF NOT EXISTS solution_groups (
+            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            title VARCHAR(150) NOT NULL,
+            sort_order INT UNSIGNED NOT NULL DEFAULT 1,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        )'
+    );
+
+    db()->exec(
+        'CREATE TABLE IF NOT EXISTS solution_items (
+            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            group_id INT UNSIGNED NOT NULL,
+            label VARCHAR(150) NOT NULL,
+            href VARCHAR(255) NOT NULL DEFAULT \'#\',
+            slug VARCHAR(180) NOT NULL DEFAULT \'\',
+            content TEXT NOT NULL,
+            sort_order INT UNSIGNED NOT NULL DEFAULT 1,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            CONSTRAINT fk_solution_items_group
+                FOREIGN KEY (group_id) REFERENCES solution_groups(id)
+                ON DELETE CASCADE
+        )'
+    );
+
+    if (! db_column_exists('solution_items', 'slug')) {
+        db()->exec('ALTER TABLE solution_items ADD COLUMN slug VARCHAR(180) NOT NULL DEFAULT \'\' AFTER href');
+    }
+
+    if (! db_column_exists('solution_items', 'content')) {
+        db()->exec('ALTER TABLE solution_items ADD COLUMN content TEXT NOT NULL AFTER slug');
+    }
+
+    if (db_column_exists('solution_items', 'slug') && db_column_exists('solution_items', 'content')) {
+        $items = db()->query('SELECT id, label, slug, content FROM solution_items')->fetchAll();
+        $updateStmt = db()->prepare('UPDATE solution_items SET slug = :slug, href = :href, content = :content WHERE id = :id');
+
+        foreach ($items as $item) {
+            $slug = trim((string) ($item['slug'] ?? ''));
+            $content = trim((string) ($item['content'] ?? ''));
+            $label = (string) ($item['label'] ?? '');
+
+            if ($slug === '') {
+                $slug = slugify($label);
+            }
+
+            if ($content === '') {
+                $content = 'Konten solusi ini akan segera diperbarui.';
+            }
+
+            $updateStmt->execute([
+                'id' => (int) $item['id'],
+                'slug' => $slug,
+                'href' => '/solutions/' . $slug,
+                'content' => $content,
+            ]);
+        }
+    }
+
+    $initialized = true;
+}
+
+function slugify(string $value): string
+{
+    $normalized = preg_replace('/[^a-z0-9]+/i', '-', strtolower(trim($value))) ?? '';
+    $normalized = trim($normalized, '-');
+
+    return $normalized !== '' ? $normalized : 'solution';
+}
+
+function find_solution_item_by_slug(array $site, string $slug): ?array
+{
+    foreach ($site['solutions']['groups'] ?? [] as $group) {
+        foreach ($group['items'] ?? [] as $item) {
+            if (($item['slug'] ?? '') === $slug) {
+                return [
+                    'group_title' => (string) ($group['title'] ?? ''),
+                    'label' => (string) ($item['label'] ?? ''),
+                    'slug' => (string) ($item['slug'] ?? ''),
+                    'href' => (string) ($item['href'] ?? ''),
+                    'content' => (string) ($item['content'] ?? ''),
+                ];
+            }
+        }
+    }
+
+    return null;
 }

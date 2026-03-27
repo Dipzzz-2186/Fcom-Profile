@@ -24,6 +24,7 @@ body {
     margin: 0;
     font-family: "Trebuchet MS", "Segoe UI", sans-serif;
     color: var(--text);
+    overflow-x: hidden;
     background:
         radial-gradient(circle at top, rgba(255, 255, 255, 0.18), transparent 24%),
         linear-gradient(180deg, #2257c8 0%, #1e52c1 42%, #1746aa 100%);
@@ -56,6 +57,20 @@ h3 {
 .fcom-home {
     position: relative;
     padding: 0 0 72px;
+}
+
+.about-page {
+    padding: 0;
+    overflow-x: clip;
+}
+
+.about-page .statement-section-combined {
+    padding: 0;
+    min-height: calc(100svh - 88px);
+}
+
+.about-page .statement-combined-shell {
+    height: calc(100svh - 88px);
 }
 
 .site-intro {
@@ -188,6 +203,82 @@ body.intro-complete .site-header {
     width: 136px;
 }
 
+.site-header-static {
+    position: sticky;
+}
+
+.site-desktop-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 18px;
+}
+
+.site-desktop-link,
+.site-desktop-dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 14px;
+    border: 0;
+    background: transparent;
+    color: #ffffff;
+    font-size: 0.98rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.site-desktop-dropdown {
+    position: relative;
+}
+
+.site-desktop-dropdown-panel {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    min-width: 360px;
+    padding: 18px 18px 12px;
+    border: 1px solid rgba(18, 40, 83, 0.08);
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 24px 44px rgba(14, 33, 79, 0.14);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 0.24s ease, transform 0.24s ease, visibility 0.24s ease;
+}
+
+.site-desktop-dropdown.is-open .site-desktop-dropdown-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.site-desktop-dropdown-group + .site-desktop-dropdown-group {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(18, 40, 83, 0.08);
+}
+
+.site-desktop-dropdown-group h3 {
+    margin: 0 0 10px;
+    color: #1f55c8;
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+
+.site-desktop-dropdown-group a {
+    display: block;
+    margin-bottom: 8px;
+    color: #173564;
+    font-size: 1rem;
+}
+
+.site-header.is-scrolled .site-desktop-link,
+.site-header.is-scrolled .site-desktop-dropdown-toggle,
+.site-header-static .site-desktop-link,
+.site-header-static .site-desktop-dropdown-toggle {
+    color: #173564;
+}
+
 .menu-toggle {
     display: inline-flex;
     align-items: center;
@@ -226,6 +317,10 @@ body.intro-complete .site-header {
     align-items: center;
     gap: 10px;
     justify-content: flex-end;
+}
+
+.site-header-static .menu-toggle {
+    color: #173564;
 }
 
 .site-sidebar {
@@ -341,6 +436,62 @@ body.intro-complete .site-header {
     border-radius: 0;
     background: transparent;
     box-shadow: none;
+}
+
+.solution-page {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top, rgba(255, 255, 255, 0.18), transparent 24%),
+        linear-gradient(180deg, #2257c8 0%, #1e52c1 42%, #1746aa 100%);
+}
+
+.solution-hero {
+    min-height: calc(100vh - 88px);
+    padding: 42px 18px 28px;
+}
+
+.solution-hero-shell {
+    width: min(1080px, 100%);
+    margin: 0 auto;
+    padding: 54px 48px;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.96);
+    color: #173564;
+    box-shadow: 0 28px 60px rgba(12, 34, 84, 0.18);
+}
+
+.solution-eyebrow {
+    margin: 0 0 12px;
+    color: #5d75a6;
+    font-size: 0.84rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.solution-hero-shell h1 {
+    margin-bottom: 18px;
+    color: #16386d;
+    font-size: clamp(2.6rem, 5vw, 4.8rem);
+    line-height: 0.96;
+}
+
+.solution-copy {
+    max-width: 760px;
+    margin: 0;
+    color: #315180;
+    font-size: 1.05rem;
+    line-height: 1.75;
+}
+
+.solution-back {
+    display: inline-flex;
+    margin-top: 26px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: #1f55c8;
+    color: #ffffff;
+    font-weight: 700;
 }
 
 .hero-photo {
@@ -1962,6 +2113,10 @@ body.intro-complete .hero-copy {
         grid-template-columns: 1fr;
         justify-items: center;
         padding: 18px 0;
+    }
+
+    .site-desktop-nav {
+        display: none;
     }
 
     .topbar-actions {

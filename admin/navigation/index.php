@@ -9,7 +9,7 @@ admin_render_page('navigation', 'Navigation', 'Atur group dan item dropdown Solu
         'groups' => map_solution_groups(
             $_POST['solution_group_title'] ?? [],
             $_POST['solution_item_label'] ?? [],
-            $_POST['solution_item_href'] ?? []
+            $_POST['solution_item_content'] ?? []
         ),
     ];
 });
