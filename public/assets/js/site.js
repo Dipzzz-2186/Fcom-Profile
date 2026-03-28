@@ -91,37 +91,41 @@ document.addEventListener('DOMContentLoaded', () => {
         counters.forEach((counter) => counterObserver.observe(counter));
     }
 
-    let ticking = false;
+    const needsScrollEffects = Boolean(heroCopy) || !header?.classList.contains('site-header-static');
 
-    const applyScrollEffects = () => {
-        if (body?.classList.contains('is-loading')) {
+    if (needsScrollEffects) {
+        let ticking = false;
+
+        const applyScrollEffects = () => {
+            if (body?.classList.contains('is-loading')) {
+                ticking = false;
+                return;
+            }
+
+            const scrollY = window.scrollY || window.pageYOffset;
+            const heroOffset = Math.min(scrollY, 360);
+
+            header?.classList.toggle('is-scrolled', scrollY > 24);
+
+            if (heroCopy) {
+                heroCopy.style.transform = `translate3d(0, ${heroOffset * 0.12}px, 0)`;
+            }
+
             ticking = false;
-            return;
-        }
+        };
 
-        const scrollY = window.scrollY || window.pageYOffset;
-        const heroOffset = Math.min(scrollY, 360);
+        const onScroll = () => {
+            if (ticking) {
+                return;
+            }
 
-        header?.classList.toggle('is-scrolled', scrollY > 24);
+            ticking = true;
+            window.requestAnimationFrame(applyScrollEffects);
+        };
 
-        if (heroCopy) {
-            heroCopy.style.transform = `translateY(${heroOffset * 0.12}px)`;
-        }
-
-        ticking = false;
-    };
-
-    const onScroll = () => {
-        if (ticking) {
-            return;
-        }
-
-        ticking = true;
-        window.requestAnimationFrame(applyScrollEffects);
-    };
-
-    applyScrollEffects();
-    window.addEventListener('scroll', onScroll, { passive: true });
+        applyScrollEffects();
+        window.addEventListener('scroll', onScroll, { passive: true });
+    }
 
     const slider = document.querySelector('[data-hero-slider]');
     const menuToggle = document.querySelector('[data-menu-toggle]');

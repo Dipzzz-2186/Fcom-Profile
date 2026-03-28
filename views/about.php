@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 ?>
-<header class="site-header site-header-static is-scrolled">
+<header class="site-header site-header-about">
     <div class="hero-topbar">
         <div class="nav-tagline">Your Trusted IT Partner</div>
         <a class="nav-center-brand" href="/" aria-label="<?= e($site['company']['name']) ?>">

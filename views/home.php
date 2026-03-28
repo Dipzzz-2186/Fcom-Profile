@@ -71,7 +71,7 @@ $problemStages = [
 
         <div class="hero-copy reveal is-visible">
             <div class="hero-cta">
-                <a class="hero-primary" href="/about">Get Started</a>
+                <a class="hero-primary" href="#clients">Get Started</a>
             </div>
             <h1>FCOM</h1>
             <p class="hero-lead">Integrated technology solutions for businesses ready to move faster.</p>
