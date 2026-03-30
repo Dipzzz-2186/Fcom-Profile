@@ -2,43 +2,27 @@
 
 declare(strict_types=1);
 
-$heroCards = array_slice($site['products']['items'], 0, 3);
-$heroSignals = array_slice($site['advantages']['items'], 0, 3);
 $clientItems = $site['clients']['items'] ?? [];
-$clientPreviewCount = min(4, count($clientItems));
 $profileImage = '/public/assets/img/Fcom%20Company%20Profile%20.png';
 $heroWallpaper = '/public/assets/img/wallpaper2.jpg';
-$mapEmbedUrl = 'https://www.google.com/maps?q=PT.%20Fcom%20Inti%20Teknologi%2C%20Jl.%20Tanjung%20Duren%20Barat%203%20No.%2012b%2C%20Jakarta%20Barat&output=embed';
-$problemStages = [
-    [
-        'key' => 'gather',
-        'label' => 'Gather',
-        'title' => 'Gather',
-        'body' => 'Mengumpulkan informasi untuk memahami kebutuhan perusahaan.',
-    ],
-    [
-        'key' => 'analyze',
-        'label' => 'Analyze',
-        'title' => 'Analyze',
-        'body' => 'Menganalisis informasi yang telah dikumpulkan untuk menyusun rencana solusi IT yang sesuai dengan kebutuhan dan tantangan bisnis Anda.',
-    ],
-    [
-        'key' => 'deploy',
-        'label' => 'Deploy',
-        'title' => 'Deploy',
-        'body' => 'Menerapkan dan mengonfigurasi solusi IT agar dapat berjalan dengan baik sesuai dengan rancangan yang telah dibuat.',
-    ],
-    [
-        'key' => 'design',
-        'label' => 'Design',
-        'title' => 'Design',
-        'body' => 'Merancang solusi IT yang paling sesuai untuk menjawab kebutuhan dan tantangan bisnis Anda.',
-    ],
-];
+$home = $site['home'] ?? [];
+$mapEmbedUrl = (string) ($home['map_embed_url'] ?? '');
+$rawStages = $site['products']['items'] ?? [];
+$stageKeys = ['gather', 'analyze', 'deploy', 'design'];
+$problemStages = [];
+foreach ($stageKeys as $index => $key) {
+    $problemStages[] = [
+        'key' => $key,
+        'label' => (string) ($rawStages[$index]['name'] ?? ''),
+        'title' => (string) ($rawStages[$index]['name'] ?? ''),
+        'body' => (string) ($rawStages[$index]['description'] ?? ''),
+    ];
+}
+$defaultStage = $problemStages[1] ?? ($problemStages[0] ?? ['title' => '', 'body' => '']);
 ?>
 <header class="site-header">
     <div class="hero-topbar">
-        <div class="nav-tagline">Your Trusted IT Partner</div>
+        <div class="nav-tagline"><?= e((string) ($home['nav_tagline'] ?? '')) ?></div>
         <a class="nav-center-brand" href="/" aria-label="<?= e($site['company']['name']) ?>">
             <img src="/public/assets/img/fcom.png" alt="<?= e($site['company']['name']) ?>">
         </a>
@@ -46,7 +30,7 @@ $problemStages = [
             <nav class="site-desktop-nav" aria-label="Primary navigation">
                 <div class="site-desktop-dropdown" data-solutions-dropdown>
                     <button class="site-desktop-link site-desktop-dropdown-toggle" type="button" data-solutions-toggle aria-expanded="false">
-                        Solutions
+                        <?= e((string) ($home['nav_solutions_label'] ?? 'Solutions')) ?>
                     </button>
                     <div class="site-desktop-dropdown-panel" data-solutions-panel>
                         <?php foreach ($site['solutions']['groups'] as $group): ?>
@@ -59,7 +43,7 @@ $problemStages = [
                         <?php endforeach; ?>
                     </div>
                 </div>
-                <a href="/about" class="site-desktop-link">About Us</a>
+                <a href="/about" class="site-desktop-link"><?= e((string) ($home['nav_about_label'] ?? 'About Us')) ?></a>
             </nav>
         </div>
     </div>
@@ -71,12 +55,12 @@ $problemStages = [
 
         <div class="hero-copy reveal is-visible">
             <div class="hero-cta">
-                <a class="hero-primary" href="#clients">Get Started</a>
+                <a class="hero-primary" href="#clients"><?= e((string) ($home['hero_button_label'] ?? 'Get Started')) ?></a>
             </div>
-            <h1>FCOM</h1>
-            <p class="hero-lead">Integrated technology solutions for businesses ready to move faster.</p>
+            <h1><?= e((string) ($home['hero_title'] ?? $site['company']['name'])) ?></h1>
+            <p class="hero-lead"><?= e((string) ($home['hero_lead'] ?? '')) ?></p>
             <div class="hero-side-note">
-                <p>Empowering businesses through integrated technology solutions that are practical, modern, and ready to scale.</p>
+                <p><?= e((string) ($home['hero_side_note'] ?? '')) ?></p>
             </div>
         </div>
     </section>
@@ -86,9 +70,8 @@ $problemStages = [
             <div class="clients-shell clients-shell-compact reveal">
                 <div class="clients-compact-head">
                     <div class="clients-compact-title-group">
-                        <p>Big companies that have partnered with us</p>
+                        <h2><?= e((string) ($home['clients_title'] ?? 'Our Clients')) ?></h2>
                     </div>
-                    <span class="clients-compact-count"><?= str_pad((string) $clientPreviewCount, 2, '0', STR_PAD_LEFT) ?> of <?= str_pad((string) count($clientItems), 2, '0', STR_PAD_LEFT) ?> Partner</span>
                 </div>
                 <div class="clients-compact-marquee" aria-label="Partner logos">
                     <div class="clients-compact-track">
@@ -106,7 +89,7 @@ $problemStages = [
     <section id="problems" class="section problem-section">
         <div class="problem-section-shell reveal delay-1">
             <header class="problem-section-head">
-                <h2>Our IT Solution Services Stages</h2>
+                <h2><?= e((string) ($site['products']['title'] ?? $home['stages_title'] ?? '')) ?></h2>
             </header>
             <div class="problem-stage-grid">
             <div class="problem-stage-visual">
@@ -125,9 +108,9 @@ $problemStages = [
                 <?php endforeach; ?>
             </div>
             <article class="problem-stage-card" data-problem-panel>
-                <div class="problem-stage-card-head" data-problem-title>Analyze</div>
+                <div class="problem-stage-card-head" data-problem-title><?= e((string) ($defaultStage['title'] ?? '')) ?></div>
                 <div class="problem-stage-card-body" data-problem-body>
-                    Informasi yang terkumpul dianalisis secara menyeluruh untuk menyusun rencana solusi IT yang tepat bagi kebutuhan bisnis Anda.
+                    <?= e((string) ($defaultStage['body'] ?? '')) ?>
                 </div>
             </article>
             </div>
@@ -148,14 +131,14 @@ $problemStages = [
         <div class="location-footer">
             <div class="location-footer-grid">
                 <div class="location-footer-column">
-                    <h3>Company</h3>
-                    <a href="/about">About Us</a>
-                    <a href="/about#vision">Vision</a>
-                    <a href="/about#mission">Mission</a>
+                    <h3><?= e((string) ($home['footer_company_heading'] ?? 'Company')) ?></h3>
+                    <a href="/about"><?= e((string) ($home['footer_about_label'] ?? 'About Us')) ?></a>
+                    <a href="/about#vision"><?= e((string) ($home['footer_vision_label'] ?? 'Vision')) ?></a>
+                    <a href="/about#mission"><?= e((string) ($home['footer_mission_label'] ?? 'Mission')) ?></a>
                 </div>
                 <div class="location-footer-column">
-                    <h3>Contact &amp; Support</h3>
-                    <a href="mailto:<?= e($site['contact']['email']) ?>">Email Us</a>
+                    <h3><?= e((string) ($home['footer_support_heading'] ?? 'Contact & Support')) ?></h3>
+                    <a href="mailto:<?= e($site['contact']['email']) ?>"><?= e((string) ($home['footer_email_label'] ?? 'Email Us')) ?></a>
                     <a href="tel:<?= e(preg_replace('/\s+/', '', (string) $site['contact']['phone'])) ?>"><?= e($site['contact']['phone']) ?></a>
                     <p><?= e($site['contact']['hours']) ?></p>
                 </div>
@@ -172,7 +155,7 @@ $problemStages = [
                 </div>
                 <div class="location-footer-meta">
                     <span>&copy; <?= date('Y') ?> FCOM</span>
-                    <span>Contact us</span>
+                    <span><?= e((string) ($home['footer_contact_label'] ?? 'Contact us')) ?></span>
                     <span><?= e($site['contact']['phone']) ?></span>
                 </div>
             </div>

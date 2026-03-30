@@ -21,6 +21,7 @@ $routes = [
     '/admin/advantages' => '/admin/advantages/index.php',
     '/admin/clients' => '/admin/clients/index.php',
     '/admin/contact' => '/admin/contact/index.php',
+    '/admin/blog' => '/admin/blog/index.php',
     '/admin/login' => '/admin/login.php',
     '/admin/logout' => '/admin/logout.php',
 ];

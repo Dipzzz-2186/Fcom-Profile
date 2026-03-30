@@ -24,6 +24,7 @@ function load_site_data(): array
 {
     ensure_client_logos_table();
     ensure_solution_items_table();
+    ensure_blog_articles_table();
 
     $site = default_site_data();
 
@@ -55,11 +56,104 @@ function load_site_data(): array
             case 'company_clients':
                 $site['company']['clients'] = $value;
                 break;
+            case 'home_nav_tagline':
+                $site['home']['nav_tagline'] = $value;
+                break;
+            case 'home_nav_solutions_label':
+                $site['home']['nav_solutions_label'] = $value;
+                break;
+            case 'home_nav_about_label':
+                $site['home']['nav_about_label'] = $value;
+                break;
+            case 'home_hero_button_label':
+                $site['home']['hero_button_label'] = $value;
+                break;
+            case 'home_hero_title':
+                $site['home']['hero_title'] = $value;
+                break;
+            case 'home_hero_lead':
+                $site['home']['hero_lead'] = $value;
+                break;
+            case 'home_hero_side_note':
+                $site['home']['hero_side_note'] = $value;
+                break;
+            case 'home_clients_title':
+                $site['home']['clients_title'] = $value;
+                break;
+            case 'home_stages_title':
+                $site['home']['stages_title'] = $value;
+                break;
+            case 'home_map_embed_url':
+                $site['home']['map_embed_url'] = $value;
+                break;
+            case 'home_footer_company_heading':
+                $site['home']['footer_company_heading'] = $value;
+                break;
+            case 'home_footer_about_label':
+                $site['home']['footer_about_label'] = $value;
+                break;
+            case 'home_footer_vision_label':
+                $site['home']['footer_vision_label'] = $value;
+                break;
+            case 'home_footer_mission_label':
+                $site['home']['footer_mission_label'] = $value;
+                break;
+            case 'home_footer_support_heading':
+                $site['home']['footer_support_heading'] = $value;
+                break;
+            case 'home_footer_email_label':
+                $site['home']['footer_email_label'] = $value;
+                break;
+            case 'home_footer_contact_label':
+                $site['home']['footer_contact_label'] = $value;
+                break;
             case 'about_title':
                 $site['about']['title'] = $value;
                 break;
             case 'about_content':
                 $site['about']['content'] = $value;
+                break;
+            case 'about_vision_copy':
+                $site['about']['vision']['copy'] = $value;
+                break;
+            case 'about_vision_target_title':
+                $site['about']['vision']['items'][0]['title'] = $value;
+                break;
+            case 'about_vision_target_body':
+                $site['about']['vision']['items'][0]['body'] = $value;
+                break;
+            case 'about_vision_goal_title':
+                $site['about']['vision']['items'][1]['title'] = $value;
+                break;
+            case 'about_vision_goal_body':
+                $site['about']['vision']['items'][1]['body'] = $value;
+                break;
+            case 'about_vision_focus_title':
+                $site['about']['vision']['items'][2]['title'] = $value;
+                break;
+            case 'about_vision_focus_body':
+                $site['about']['vision']['items'][2]['body'] = $value;
+                break;
+            case 'about_mission_copy':
+                $site['about']['mission']['copy'] = $value;
+                break;
+            case 'about_mission_objective_title':
+                $site['about']['mission']['items'][0]['title'] = $value;
+                break;
+            case 'about_mission_objective_body':
+                $site['about']['mission']['items'][0]['body'] = $value;
+                break;
+            case 'about_mission_approach_title':
+                $site['about']['mission']['items'][1]['title'] = $value;
+                break;
+            case 'about_mission_approach_body':
+                $site['about']['mission']['items'][1]['body'] = $value;
+                break;
+            case 'about_mission_benefit_title':
+                $site['about']['mission']['items'][2]['title'] = $value;
+                break;
+            case 'about_mission_benefit_body':
+                $site['about']['mission']['items'][2]['body'] = $value;
                 break;
             case 'products_title':
                 $site['products']['title'] = $value;
@@ -128,6 +222,22 @@ function load_site_data(): array
         }
     }
 
+    if (db_table_exists('blog_articles')) {
+        $blogArticles = db()->query('SELECT title, slug, excerpt, content, image_path, is_featured, is_popular, published_at FROM blog_articles ORDER BY published_at DESC, id DESC')->fetchAll();
+        if ($blogArticles !== []) {
+            $site['blog']['items'] = array_map(static fn (array $item): array => [
+                'title' => (string) $item['title'],
+                'slug' => (string) $item['slug'],
+                'excerpt' => (string) $item['excerpt'],
+                'content' => (string) $item['content'],
+                'image' => (string) $item['image_path'],
+                'is_featured' => (bool) $item['is_featured'],
+                'is_popular' => (bool) $item['is_popular'],
+                'published_at' => (string) $item['published_at'],
+            ], $blogArticles);
+        }
+    }
+
     return $site;
 }
 
@@ -135,6 +245,7 @@ function save_site_data(array $data): bool
 {
     ensure_client_logos_table();
     ensure_solution_items_table();
+    ensure_blog_articles_table();
 
     $pdo = db();
     $pdo->beginTransaction();
@@ -148,8 +259,39 @@ function save_site_data(array $data): bool
             'company_years' => $data['company']['years'],
             'company_projects' => $data['company']['projects'],
             'company_clients' => $data['company']['clients'],
+            'home_nav_tagline' => $data['home']['nav_tagline'],
+            'home_nav_solutions_label' => $data['home']['nav_solutions_label'],
+            'home_nav_about_label' => $data['home']['nav_about_label'],
+            'home_hero_button_label' => $data['home']['hero_button_label'],
+            'home_hero_title' => $data['home']['hero_title'],
+            'home_hero_lead' => $data['home']['hero_lead'],
+            'home_hero_side_note' => $data['home']['hero_side_note'],
+            'home_clients_title' => $data['home']['clients_title'],
+            'home_stages_title' => $data['home']['stages_title'],
+            'home_map_embed_url' => $data['home']['map_embed_url'],
+            'home_footer_company_heading' => $data['home']['footer_company_heading'],
+            'home_footer_about_label' => $data['home']['footer_about_label'],
+            'home_footer_vision_label' => $data['home']['footer_vision_label'],
+            'home_footer_mission_label' => $data['home']['footer_mission_label'],
+            'home_footer_support_heading' => $data['home']['footer_support_heading'],
+            'home_footer_email_label' => $data['home']['footer_email_label'],
+            'home_footer_contact_label' => $data['home']['footer_contact_label'],
             'about_title' => $data['about']['title'],
             'about_content' => $data['about']['content'],
+            'about_vision_copy' => $data['about']['vision']['copy'],
+            'about_vision_target_title' => $data['about']['vision']['items'][0]['title'],
+            'about_vision_target_body' => $data['about']['vision']['items'][0]['body'],
+            'about_vision_goal_title' => $data['about']['vision']['items'][1]['title'],
+            'about_vision_goal_body' => $data['about']['vision']['items'][1]['body'],
+            'about_vision_focus_title' => $data['about']['vision']['items'][2]['title'],
+            'about_vision_focus_body' => $data['about']['vision']['items'][2]['body'],
+            'about_mission_copy' => $data['about']['mission']['copy'],
+            'about_mission_objective_title' => $data['about']['mission']['items'][0]['title'],
+            'about_mission_objective_body' => $data['about']['mission']['items'][0]['body'],
+            'about_mission_approach_title' => $data['about']['mission']['items'][1]['title'],
+            'about_mission_approach_body' => $data['about']['mission']['items'][1]['body'],
+            'about_mission_benefit_title' => $data['about']['mission']['items'][2]['title'],
+            'about_mission_benefit_body' => $data['about']['mission']['items'][2]['body'],
             'products_title' => $data['products']['title'],
             'advantages_title' => $data['advantages']['title'],
             'contact_address' => $data['contact']['address'],
@@ -231,6 +373,28 @@ function save_site_data(array $data): bool
             }
         }
 
+        if (db_table_exists('blog_articles')) {
+            $pdo->exec('DELETE FROM blog_articles');
+            $blogStmt = $pdo->prepare(
+                'INSERT INTO blog_articles (title, slug, excerpt, content, image_path, is_featured, is_popular, published_at, sort_order)
+                 VALUES (:title, :slug, :excerpt, :content, :image_path, :is_featured, :is_popular, :published_at, :sort_order)'
+            );
+
+            foreach ($data['blog']['items'] as $index => $item) {
+                $blogStmt->execute([
+                    'title' => $item['title'],
+                    'slug' => $item['slug'],
+                    'excerpt' => $item['excerpt'],
+                    'content' => $item['content'],
+                    'image_path' => $item['image'],
+                    'is_featured' => $item['is_featured'] ? 1 : 0,
+                    'is_popular' => $item['is_popular'] ? 1 : 0,
+                    'published_at' => $item['published_at'],
+                    'sort_order' => $index + 1,
+                ]);
+            }
+        }
+
         $pdo->commit();
         return true;
     } catch (Throwable $exception) {
@@ -251,28 +415,81 @@ function default_site_data(): array
             'projects' => '120+',
             'clients' => '60+',
         ],
+        'home' => [
+            'nav_tagline' => 'Your Trusted IT Partner',
+            'nav_solutions_label' => 'Solutions',
+            'nav_about_label' => 'About Us',
+            'hero_button_label' => 'Get Started',
+            'hero_title' => 'FCOM',
+            'hero_lead' => 'Integrated technology solutions for businesses ready to move faster.',
+            'hero_side_note' => 'Empowering businesses through integrated technology solutions that are practical, modern, and ready to scale.',
+            'clients_title' => 'Our Clients',
+            'stages_title' => 'Our IT Solution Services Stages',
+            'map_embed_url' => 'https://www.google.com/maps?q=PT.%20Fcom%20Inti%20Teknologi%2C%20Jl.%20Tanjung%20Duren%20Barat%203%20No.%2012b%2C%20Jakarta%20Barat&output=embed',
+            'footer_company_heading' => 'Company',
+            'footer_about_label' => 'About Us',
+            'footer_vision_label' => 'Vision',
+            'footer_mission_label' => 'Mission',
+            'footer_support_heading' => 'Contact & Support',
+            'footer_email_label' => 'Email Us',
+            'footer_contact_label' => 'Contact us',
+        ],
         'about' => [
             'title' => 'Tentang FCOM',
             'content' => 'Kami menggabungkan pendekatan kreatif, eksekusi teknis, dan pemahaman bisnis untuk menghasilkan layanan yang relevan. Website company profile ini dirancang sebagai wajah digital perusahaan: jelas, rapi, dan meyakinkan sejak kesan pertama.',
+            'vision' => [
+                'copy' => 'Menyediakan solusi IT untuk membantu bisnis di Indonesia menuju era digital.',
+                'items' => [
+                    [
+                        'title' => 'Target Audience',
+                        'body' => 'Perusahaan dan pelaku bisnis di Indonesia.',
+                    ],
+                    [
+                        'title' => 'Goal',
+                        'body' => 'Membantu perusahaan dan bisnis beralih ke teknologi dan sistem digital.',
+                    ],
+                    [
+                        'title' => 'Focus',
+                        'body' => 'Menyediakan solusi IT yang mendukung dan mempermudah transformasi digital.',
+                    ],
+                ],
+            ],
+            'mission' => [
+                'copy' => 'Menyederhanakan kompleksitas IT',
+                'items' => [
+                    [
+                        'title' => 'Objective',
+                        'body' => 'Mengurangi kesulitan dalam pengelolaan teknologi informasi.',
+                    ],
+                    [
+                        'title' => 'Approach',
+                        'body' => 'Berfokus pada penyederhanaan proses dan teknologi IT agar lebih mudah dipahami dan dikelola.',
+                    ],
+                    [
+                        'title' => 'Benefit',
+                        'body' => 'Membantu bisnis menghadapi tantangan IT secara lebih efisien dan efektif.',
+                    ],
+                ],
+            ],
         ],
         'products' => [
-            'title' => 'Produk & Layanan',
+            'title' => 'Our IT Solution Services Stages',
             'items' => [
                 [
-                    'name' => 'Website Company Profile',
-                    'description' => 'Perancangan website profesional yang menonjolkan identitas perusahaan, portofolio, dan informasi layanan secara terstruktur.',
+                    'name' => 'Gather',
+                    'description' => 'Mengumpulkan informasi untuk memahami kebutuhan perusahaan.',
                 ],
                 [
-                    'name' => 'Landing Page Kampanye',
-                    'description' => 'Halaman pemasaran yang fokus pada konversi dengan struktur konten yang singkat, jelas, dan kredibel.',
+                    'name' => 'Analyze',
+                    'description' => 'Menganalisis informasi yang telah dikumpulkan untuk menyusun rencana solusi IT yang sesuai dengan kebutuhan dan tantangan bisnis Anda.',
                 ],
                 [
-                    'name' => 'Brand Communication Kit',
-                    'description' => 'Penyusunan materi komunikasi brand untuk presentasi, profil usaha, dan kebutuhan promosi digital.',
+                    'name' => 'Deploy',
+                    'description' => 'Menerapkan dan mengonfigurasi solusi IT agar dapat berjalan dengan baik sesuai dengan rancangan yang telah dibuat.',
                 ],
                 [
-                    'name' => 'Maintenance & Content Update',
-                    'description' => 'Pendampingan pembaruan konten, banner, informasi layanan, dan performa tampilan website secara berkala.',
+                    'name' => 'Design',
+                    'description' => 'Merancang solusi IT yang paling sesuai untuk menjawab kebutuhan dan tantangan bisnis Anda.',
                 ],
             ],
         ],
@@ -325,6 +542,50 @@ function default_site_data(): array
         ],
         'clients' => [
             'items' => [],
+        ],
+        'blog' => [
+            'items' => [
+                [
+                    'title' => 'CCTV: Bagaimana CCTV Merekam Gambar dengan Jelas di Kegelapan',
+                    'slug' => 'cctv-bagaimana-cctv-merekam-gambar-dengan-jelas-di-kegelapan',
+                    'excerpt' => 'Penjelasan ringkas tentang cara CCTV modern menjaga kualitas gambar tetap jelas saat pencahayaan rendah.',
+                    'content' => 'CCTV modern memakai kombinasi sensor cahaya, infrared, dan pemrosesan gambar digital agar detail objek tetap terlihat meskipun kondisi sekitar gelap. Pemilihan resolusi kamera, kualitas lensa, dan penempatan yang tepat juga menentukan hasil rekaman akhir.',
+                    'image' => '/public/assets/img/wallpaper2.jpg',
+                    'is_featured' => true,
+                    'is_popular' => true,
+                    'published_at' => date('Y-m-d'),
+                ],
+                [
+                    'title' => 'Cara mengatasi Google Chrome yang sering closed atau not responding',
+                    'slug' => 'cara-mengatasi-google-chrome-yang-sering-closed-atau-not-responding',
+                    'excerpt' => 'Langkah awal untuk memeriksa ekstensi, cache, dan penggunaan resource browser.',
+                    'content' => 'Masalah Chrome yang sering tertutup sendiri biasanya berasal dari ekstensi bermasalah, profil rusak, atau penggunaan memori berlebih. Mulai dari membersihkan cache, menonaktifkan extension satu per satu, dan memastikan versi browser serta driver perangkat sudah terbaru.',
+                    'image' => '/public/assets/img/fcom.png',
+                    'is_featured' => false,
+                    'is_popular' => true,
+                    'published_at' => date('Y-m-d', strtotime('-1 day')),
+                ],
+                [
+                    'title' => 'Cara mengatasi Disk Usage 100% pada Windows',
+                    'slug' => 'cara-mengatasi-disk-usage-100-pada-windows',
+                    'excerpt' => 'Beberapa penyebab umum dan langkah perbaikan untuk penggunaan disk yang penuh terus-menerus.',
+                    'content' => 'Disk usage 100% biasanya dipicu oleh service background, indexing, update loop, atau storage yang mulai bermasalah. Pemeriksaan Task Manager, startup apps, service SysMain, serta kesehatan drive bisa membantu mengurangi bottleneck.',
+                    'image' => '/public/assets/img/logo2.png',
+                    'is_featured' => false,
+                    'is_popular' => true,
+                    'published_at' => date('Y-m-d', strtotime('-2 days')),
+                ],
+                [
+                    'title' => 'Tips irit kuota saat tethering dari handphone ke laptop',
+                    'slug' => 'tips-irit-kuota-saat-tethering-dari-handphone-ke-laptop',
+                    'excerpt' => 'Cara menghemat penggunaan data saat hotspot dipakai untuk kerja harian.',
+                    'content' => 'Batasi update otomatis, matikan sinkronisasi yang tidak perlu, dan prioritaskan aplikasi kerja penting saat tethering. Pengaturan metered connection di laptop juga efektif untuk mencegah aplikasi mengunduh data berukuran besar tanpa disadari.',
+                    'image' => '/public/assets/img/wallpaper1.jpg',
+                    'is_featured' => false,
+                    'is_popular' => true,
+                    'published_at' => date('Y-m-d', strtotime('-3 days')),
+                ],
+            ],
         ],
         'contact' => [
             'address' => 'Jl. Strategis Bisnis No. 18, Jakarta',
@@ -532,6 +793,61 @@ function handle_logo_uploads(array $files, array $existingPaths = []): array
     return $normalized;
 }
 
+function handle_blog_image_uploads(array $files, array $existingPaths = []): array
+{
+    $normalized = [];
+    $names = $files['name'] ?? [];
+    $tmpNames = $files['tmp_name'] ?? [];
+    $errors = $files['error'] ?? [];
+    $count = max(count($names), count($existingPaths));
+
+    $uploadDir = BASE_PATH . '/public/assets/img/blog';
+
+    if (! is_dir($uploadDir)) {
+        mkdir($uploadDir, 0775, true);
+    }
+
+    for ($index = 0; $index < $count; $index++) {
+        $existing = trim((string) ($existingPaths[$index] ?? ''));
+        $error = (int) ($errors[$index] ?? UPLOAD_ERR_NO_FILE);
+        $tmpName = (string) ($tmpNames[$index] ?? '');
+        $originalName = (string) ($names[$index] ?? '');
+
+        if ($error === UPLOAD_ERR_NO_FILE) {
+            $normalized[] = $existing;
+            continue;
+        }
+
+        if ($error !== UPLOAD_ERR_OK || $tmpName === '' || ! is_uploaded_file($tmpName)) {
+            $normalized[] = $existing;
+            continue;
+        }
+
+        $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+        $allowedExtensions = ['png', 'jpg', 'jpeg', 'webp'];
+
+        if (! in_array($extension, $allowedExtensions, true)) {
+            $normalized[] = $existing;
+            continue;
+        }
+
+        $baseName = preg_replace('/[^a-z0-9]+/i', '-', pathinfo($originalName, PATHINFO_FILENAME));
+        $baseName = trim((string) $baseName, '-');
+        $baseName = $baseName !== '' ? strtolower($baseName) : 'blog-image';
+        $fileName = $baseName . '-' . bin2hex(random_bytes(4)) . '.' . $extension;
+        $targetPath = $uploadDir . '/' . $fileName;
+
+        if (! move_uploaded_file($tmpName, $targetPath)) {
+            $normalized[] = $existing;
+            continue;
+        }
+
+        $normalized[] = '/public/assets/img/blog/' . $fileName;
+    }
+
+    return $normalized;
+}
+
 function db_table_exists(string $tableName): bool
 {
     static $cache = [];
@@ -666,6 +982,34 @@ function ensure_solution_items_table(): void
     $initialized = true;
 }
 
+function ensure_blog_articles_table(): void
+{
+    static $initialized = false;
+
+    if ($initialized) {
+        return;
+    }
+
+    db()->exec(
+        'CREATE TABLE IF NOT EXISTS blog_articles (
+            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            title VARCHAR(255) NOT NULL,
+            slug VARCHAR(255) NOT NULL,
+            excerpt TEXT NOT NULL,
+            content LONGTEXT NOT NULL,
+            image_path VARCHAR(255) NOT NULL,
+            is_featured TINYINT(1) NOT NULL DEFAULT 0,
+            is_popular TINYINT(1) NOT NULL DEFAULT 0,
+            published_at DATE NOT NULL,
+            sort_order INT UNSIGNED NOT NULL DEFAULT 1,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        )'
+    );
+
+    $initialized = true;
+}
+
 function slugify(string $value): string
 {
     $normalized = preg_replace('/[^a-z0-9]+/i', '-', strtolower(trim($value))) ?? '';
@@ -687,6 +1031,61 @@ function find_solution_item_by_slug(array $site, string $slug): ?array
                     'content' => (string) ($item['content'] ?? ''),
                 ];
             }
+        }
+    }
+
+    return null;
+}
+
+function map_blog_items(
+    array $titles,
+    array $excerpts,
+    array $contents,
+    array $images,
+    array $featuredIndexes,
+    array $popularIndexes,
+    array $publishedDates,
+    array $deletedIndexes = []
+): array {
+    $items = [];
+    $count = max(count($titles), count($excerpts), count($contents), count($images), count($publishedDates));
+    $deletedIndexMap = array_map('strval', $deletedIndexes);
+
+    for ($index = 0; $index < $count; $index++) {
+        if (in_array((string) $index, $deletedIndexMap, true)) {
+            continue;
+        }
+
+        $title = trim((string) ($titles[$index] ?? ''));
+        $excerpt = trim((string) ($excerpts[$index] ?? ''));
+        $content = trim((string) ($contents[$index] ?? ''));
+        $image = trim((string) ($images[$index] ?? ''));
+        $publishedAt = trim((string) ($publishedDates[$index] ?? ''));
+
+        if ($title === '' && $excerpt === '' && $content === '') {
+            continue;
+        }
+
+        $items[] = [
+            'title' => $title,
+            'slug' => slugify($title !== '' ? $title : ('artikel-' . ($index + 1))),
+            'excerpt' => $excerpt !== '' ? $excerpt : substr($content, 0, 140),
+            'content' => $content !== '' ? $content : $excerpt,
+            'image' => $image,
+            'is_featured' => in_array((string) $index, array_map('strval', $featuredIndexes), true),
+            'is_popular' => in_array((string) $index, array_map('strval', $popularIndexes), true),
+            'published_at' => preg_match('/^\d{4}-\d{2}-\d{2}$/', $publishedAt) === 1 ? $publishedAt : date('Y-m-d'),
+        ];
+    }
+
+    return $items;
+}
+
+function find_blog_article_by_slug(array $site, string $slug): ?array
+{
+    foreach ($site['blog']['items'] ?? [] as $item) {
+        if (($item['slug'] ?? '') === $slug) {
+            return $item;
         }
     }
 

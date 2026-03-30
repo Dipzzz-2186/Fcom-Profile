@@ -1,6 +1,11 @@
 <?php
 
 declare(strict_types=1);
+
+$vision = $site['about']['vision'] ?? [];
+$visionItems = $vision['items'] ?? [];
+$mission = $site['about']['mission'] ?? [];
+$missionItems = $mission['items'] ?? [];
 ?>
 <header class="site-header site-header-about">
     <div class="hero-topbar">
@@ -38,27 +43,27 @@ declare(strict_types=1);
                 <div class="statement-combined-icon statement-combined-icon-eye" aria-hidden="true"></div>
                 <p class="statement-combined-eyebrow">Our</p>
                 <h2>Vision</h2>
-                <p class="statement-combined-copy">Menyediakan solusi IT untuk membantu bisnis di Indonesia menuju era digital.</p>
+                <p class="statement-combined-copy"><?= e((string) ($vision['copy'] ?? '')) ?></p>
                 <div class="statement-combined-detail-list statement-combined-detail-list-vision">
                     <article class="statement-detail-item">
                         <span class="statement-detail-icon statement-detail-icon-audience" aria-hidden="true"></span>
                         <div class="statement-detail-copy">
-                            <h3>Target Audience</h3>
-                            <p>Perusahaan dan pelaku bisnis di Indonesia.</p>
+                            <h3><?= e((string) (($visionItems[0]['title'] ?? 'Target Audience'))) ?></h3>
+                            <p><?= e((string) (($visionItems[0]['body'] ?? ''))) ?></p>
                         </div>
                     </article>
                     <article class="statement-detail-item">
                         <span class="statement-detail-icon statement-detail-icon-goal" aria-hidden="true"></span>
                         <div class="statement-detail-copy">
-                            <h3>Goal</h3>
-                            <p>Membantu perusahaan dan bisnis beralih ke teknologi dan sistem digital.</p>
+                            <h3><?= e((string) (($visionItems[1]['title'] ?? 'Goal'))) ?></h3>
+                            <p><?= e((string) (($visionItems[1]['body'] ?? ''))) ?></p>
                         </div>
                     </article>
                     <article class="statement-detail-item">
                         <span class="statement-detail-icon statement-detail-icon-focus" aria-hidden="true"></span>
                         <div class="statement-detail-copy">
-                            <h3>Focus</h3>
-                            <p>Menyediakan solusi IT yang mendukung dan mempermudah transformasi digital.</p>
+                            <h3><?= e((string) (($visionItems[2]['title'] ?? 'Focus'))) ?></h3>
+                            <p><?= e((string) (($visionItems[2]['body'] ?? ''))) ?></p>
                         </div>
                     </article>
                 </div>
@@ -68,27 +73,27 @@ declare(strict_types=1);
                 <div class="statement-combined-icon statement-combined-icon-target" aria-hidden="true"></div>
                 <p class="statement-combined-eyebrow">Our</p>
                 <h2>Mission</h2>
-                <p class="statement-combined-copy">Menyederhanakan kompleksitas IT</p>
+                <p class="statement-combined-copy"><?= e((string) ($mission['copy'] ?? '')) ?></p>
                 <div class="statement-combined-detail-list">
                     <article class="statement-detail-item">
                         <span class="statement-detail-icon statement-detail-icon-objective" aria-hidden="true"></span>
                         <div class="statement-detail-copy">
-                            <h3>Objective</h3>
-                            <p>Mengurangi kesulitan dalam pengelolaan teknologi informasi.</p>
+                            <h3><?= e((string) (($missionItems[0]['title'] ?? 'Objective'))) ?></h3>
+                            <p><?= e((string) (($missionItems[0]['body'] ?? ''))) ?></p>
                         </div>
                     </article>
                     <article class="statement-detail-item">
                         <span class="statement-detail-icon statement-detail-icon-approach" aria-hidden="true"></span>
                         <div class="statement-detail-copy">
-                            <h3>Approach</h3>
-                            <p>Berfokus pada penyederhanaan proses dan teknologi IT agar lebih mudah dipahami dan dikelola.</p>
+                            <h3><?= e((string) (($missionItems[1]['title'] ?? 'Approach'))) ?></h3>
+                            <p><?= e((string) (($missionItems[1]['body'] ?? ''))) ?></p>
                         </div>
                     </article>
                     <article class="statement-detail-item">
                         <span class="statement-detail-icon statement-detail-icon-benefit" aria-hidden="true"></span>
                         <div class="statement-detail-copy">
-                            <h3>Benefit</h3>
-                            <p>Membantu bisnis menghadapi tantangan IT secara lebih efisien dan efektif.</p>
+                            <h3><?= e((string) (($missionItems[2]['title'] ?? 'Benefit'))) ?></h3>
+                            <p><?= e((string) (($missionItems[2]['body'] ?? ''))) ?></p>
                         </div>
                     </article>
                 </div>

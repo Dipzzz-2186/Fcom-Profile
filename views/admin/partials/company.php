@@ -2,29 +2,36 @@
 
 declare(strict_types=1);
 ?>
-<div class="form-card">
-    <h2>Informasi Utama</h2>
-    <div class="form-grid">
-        <label>Nama Perusahaan
-            <input type="text" name="company_name" value="<?= e($site['company']['name']) ?>" required>
-        </label>
-        <label>Tagline
-            <input type="text" name="company_tagline" value="<?= e($site['company']['tagline']) ?>" required>
-        </label>
-        <label class="full">Headline
-            <input type="text" name="company_headline" value="<?= e($site['company']['headline']) ?>" required>
-        </label>
-        <label class="full">Deskripsi
-            <textarea name="company_description" rows="4" required><?= e($site['company']['description']) ?></textarea>
-        </label>
-        <label>Tahun Pengalaman
-            <input type="text" name="company_years" value="<?= e($site['company']['years']) ?>" required>
-        </label>
-        <label>Total Project
-            <input type="text" name="company_projects" value="<?= e($site['company']['projects']) ?>" required>
-        </label>
-        <label>Total Klien
-            <input type="text" name="company_clients" value="<?= e($site['company']['clients']) ?>" required>
-        </label>
+<div class="cms-card-stack">
+    <div class="form-card">
+        <h2>Brand</h2>
+        <p class="muted">Identitas utama yang tampil di homepage.</p>
+        <div class="form-grid">
+            <label>Nama Perusahaan
+                <input type="text" name="company_name" value="<?= e($site['company']['name']) ?>" required>
+            </label>
+            <label>Tagline Atas
+                <input type="text" name="home_nav_tagline" value="<?= e($site['home']['nav_tagline'] ?? '') ?>" required>
+            </label>
+        </div>
+    </div>
+
+    <div class="form-card">
+        <h2>Hero</h2>
+        <p class="muted">Konten utama hero section homepage.</p>
+        <div class="form-grid">
+            <label>Judul Hero
+                <input type="text" name="home_hero_title" value="<?= e($site['home']['hero_title'] ?? '') ?>" required>
+            </label>
+            <label>Label Tombol Hero
+                <input type="text" name="home_hero_button_label" value="<?= e($site['home']['hero_button_label'] ?? '') ?>" required>
+            </label>
+            <label class="full">Hero Lead
+                <textarea name="home_hero_lead" rows="3" required><?= e($site['home']['hero_lead'] ?? '') ?></textarea>
+            </label>
+            <label class="full">Hero Side Note
+                <textarea name="home_hero_side_note" rows="4" required><?= e($site['home']['hero_side_note'] ?? '') ?></textarea>
+            </label>
+        </div>
     </div>
 </div>

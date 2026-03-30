@@ -2,37 +2,47 @@
 
 declare(strict_types=1);
 
-$navItems = [
+$dashboardItem = [
+    'key' => 'dashboard',
+    'label' => 'Dashboard',
+    'href' => '/admin/dashboard',
+    'icon' => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13h7V4H4v9zm9 7h7V4h-7v16zM4 20h7v-5H4v5z"/></svg>',
+];
+
+$navGroups = [
     [
-        'key' => 'dashboard',
-        'label' => 'Dashboard',
-        'href' => '/admin/dashboard',
-        'icon' => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13h7V4H4v9zm9 7h7V4h-7v16zM4 20h7v-5H4v5z"/></svg>',
+        'label' => 'Homepage',
+        'items' => [
+            ['key' => 'company', 'label' => 'Home Hero', 'href' => '/admin/company', 'icon' => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18v-2H3v2zm2-4h4V7H5v10zm5 0h4V3h-4v14zm5 0h4v-7h-4v7z"/></svg>'],
+            ['key' => 'services', 'label' => 'Stages', 'href' => '/admin/services', 'icon' => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h10v2H4v-2z"/></svg>'],
+            ['key' => 'clients', 'label' => 'Clients', 'href' => '/admin/clients', 'icon' => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 11c1.66 0 2.99-1.79 2.99-4S17.66 3 16 3s-3 1.34-3 4 1.34 4 3 4zm-8 0c1.66 0 2.99-1.79 2.99-4S9.66 3 8 3 5 4.34 5 7s1.34 4 3 4zm0 2c-2.33 0-7 1.17-7 3.5V20h14v-3.5C15 14.17 10.33 13 8 13zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.94 1.97 3.45V20h6v-3.5c0-2.33-4.67-3.5-7-3.5z"/></svg>'],
+        ],
     ],
     [
-        'key' => 'clients',
-        'label' => 'Our Client',
-        'href' => '/admin/clients',
-        'icon' => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 11c1.66 0 2.99-1.79 2.99-4S17.66 3 16 3s-3 1.34-3 4 1.34 4 3 4zm-8 0c1.66 0 2.99-1.79 2.99-4S9.66 3 8 3 5 4.34 5 7s1.34 4 3 4zm0 2c-2.33 0-7 1.17-7 3.5V20h14v-3.5C15 14.17 10.33 13 8 13zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.94 1.97 3.45V20h6v-3.5c0-2.33-4.67-3.5-7-3.5z"/></svg>',
+        'label' => 'Profile',
+        'items' => [
+            ['key' => 'about', 'label' => 'About', 'href' => '/admin/about', 'icon' => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 7h2V5h-2v2zm0 12h2V9h-2v10zm1-17C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>'],
+            ['key' => 'blog', 'label' => 'Blog', 'href' => '/admin/blog', 'icon' => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v2H4V5zm0 4h16v2H4V9zm0 4h10v2H4v-2zm0 4h10v2H4v-2zm12 0h4V9h-4v8z"/></svg>'],
+        ],
     ],
     [
-        'key' => 'website',
-        'label' => 'Website',
-        'href' => '/',
-        'icon' => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm6.93 9h-3.03a15.6 15.6 0 00-1.38-5.01A8.03 8.03 0 0118.93 11zM12 4.06c1.13 1.46 1.94 3.99 2.12 6.94H9.88C10.06 8.05 10.87 5.52 12 4.06zM9.48 5.99A15.6 15.6 0 008.1 11H5.07a8.03 8.03 0 014.41-5.01zM4.26 13H8.1a15.6 15.6 0 001.38 5.01A8.03 8.03 0 014.26 13zm7.74 6.94c-1.13-1.46-1.94-3.99-2.12-6.94h4.24c-.18 2.95-.99 5.48-2.12 6.94zm2.52-1.93A15.6 15.6 0 0015.9 13h3.84a8.03 8.03 0 01-5.22 5.01z"/></svg>',
+        'label' => 'Contact',
+        'items' => [
+            ['key' => 'contact', 'label' => 'Contact', 'href' => '/admin/contact', 'icon' => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8V7l-3 2-2-1-3 2-2-1-3 2-2-1-4 2v9h20V8zM1 5v2l4-2 2 1 3-2 2 1 3-2 2 1 3-2v2l-3 2-2-1-3 2-2-1-3 2-2-1-4 2V5z"/></svg>'],
+            ['key' => 'advantages', 'label' => 'Footer', 'href' => '/admin/advantages', 'icon' => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.39 7.26H22l-6.1 4.43 2.33 7.31L12 16.9 5.77 21l2.33-7.31L2 9.26h7.61L12 2z"/></svg>'],
+        ],
     ],
-    [
-        'key' => 'logout',
-        'label' => 'Logout',
-        'href' => '/admin/logout',
-        'icon' => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l1.41-1.41L8.83 13H20v-2H8.83l2.58-2.59L10 7l-5 5 5 5zm10-14H4a2 2 0 00-2 2v4h2V5h16v14H4v-4H2v4a2 2 0 002 2h16a2 2 0 002-2V5a2 2 0 00-2-2z"/></svg>',
-    ],
+];
+
+$utilityItems = [
+    ['key' => 'website', 'label' => 'Website', 'href' => '/', 'icon' => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm6.93 9h-3.03a15.6 15.6 0 00-1.38-5.01A8.03 8.03 0 0118.93 11zM12 4.06c1.13 1.46 1.94 3.99 2.12 6.94H9.88C10.06 8.05 10.87 5.52 12 4.06zM9.48 5.99A15.6 15.6 0 008.1 11H5.07a8.03 8.03 0 014.41-5.01zM4.26 13H8.1a15.6 15.6 0 001.38 5.01A8.03 8.03 0 014.26 13zm7.74 6.94c-1.13-1.46-1.94-3.99-2.12-6.94h4.24c-.18 2.95-.99 5.48-2.12 6.94zm2.52-1.93A15.6 15.6 0 0015.9 13h3.84a8.03 8.03 0 01-5.22 5.01z"/></svg>'],
+    ['key' => 'logout', 'label' => 'Logout', 'href' => '/admin/logout', 'icon' => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l1.41-1.41L8.83 13H20v-2H8.83l2.58-2.59L10 7l-5 5 5 5zm10-14H4a2 2 0 00-2 2v4h2V5h16v14H4v-4H2v4a2 2 0 002 2h16a2 2 0 002-2V5a2 2 0 00-2-2z"/></svg>'],
 ];
 
 $adminName = (string) ($_SESSION['admin_username'] ?? 'Admin');
 ?>
-<main class="dashboard-shell dashboard-shell-modern dashboard-shell-dark">
-    <aside class="sidebar dashboard-sidebar-modern dashboard-sidebar-dark">
+<main class="dashboard-shell dashboard-shell-modern dashboard-shell-dark dashboard-shell-classic">
+    <aside class="sidebar dashboard-sidebar-modern dashboard-sidebar-dark dashboard-sidebar-classic">
         <div class="dashboard-brand dashboard-brand-fcom">
             <img src="/public/assets/img/fcom.png" alt="FCOM">
             <div>
@@ -41,34 +51,84 @@ $adminName = (string) ($_SESSION['admin_username'] ?? 'Admin');
             </div>
         </div>
 
-        <nav class="sidebar-nav sidebar-nav-dark">
-            <?php foreach ($navItems as $item): ?>
-                <?php $isActive = $activePage === $item['key']; ?>
-                <a class="<?= $isActive ? 'is-active' : '' ?>" href="<?= e($item['href']) ?>">
-                    <span class="nav-icon"><?= $item['icon'] ?></span>
-                    <span><?= e($item['label']) ?></span>
-                </a>
-            <?php endforeach; ?>
+        <nav class="sidebar-nav sidebar-nav-dark sidebar-nav-foldered">
+            <div class="sidebar-nav-section">
+                <span class="sidebar-nav-title">Menu</span>
+                <div class="sidebar-nav-list">
+                    <?php $isDashboardActive = $activePage === $dashboardItem['key']; ?>
+                    <a class="<?= $isDashboardActive ? 'is-active' : '' ?>" href="<?= e($dashboardItem['href']) ?>">
+                        <span class="nav-link-main">
+                            <span class="nav-icon"><?= $dashboardItem['icon'] ?></span>
+                            <span><?= e($dashboardItem['label']) ?></span>
+                        </span>
+                        <span class="nav-caret" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                        </span>
+                    </a>
+
+                    <?php foreach ($navGroups as $group): ?>
+                        <div class="sidebar-folder">
+                            <div class="sidebar-folder-label">
+                                <span class="nav-link-main">
+                                    <span class="nav-icon">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4l2 2h8a2 2 0 012 2v8a4 4 0 01-4 4H6a4 4 0 01-4-4V6a2 2 0 012-2h6z"/></svg>
+                                    </span>
+                                    <span><?= e($group['label']) ?></span>
+                                </span>
+                                <span class="nav-caret" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                                </span>
+                            </div>
+                            <div class="sidebar-folder-items">
+                                <?php foreach ($group['items'] as $item): ?>
+                                    <?php $isActive = $activePage === $item['key']; ?>
+                                    <a class="sidebar-folder-link <?= $isActive ? 'is-active' : '' ?>" href="<?= e($item['href']) ?>">
+                                        <span class="nav-link-main">
+                                            <span class="nav-icon"><?= $item['icon'] ?></span>
+                                            <span><?= e($item['label']) ?></span>
+                                        </span>
+                                    </a>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <div class="sidebar-nav-section">
+                <span class="sidebar-nav-title">Support</span>
+                <div class="sidebar-nav-list">
+                    <?php foreach ($utilityItems as $item): ?>
+                        <?php $isActive = $activePage === $item['key']; ?>
+                        <a class="<?= $isActive ? 'is-active' : '' ?>" href="<?= e($item['href']) ?>">
+                            <span class="nav-link-main">
+                                <span class="nav-icon"><?= $item['icon'] ?></span>
+                                <span><?= e($item['label']) ?></span>
+                            </span>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+            </div>
         </nav>
 
         <div class="dashboard-user-card">
             <div class="dashboard-user-avatar"><?= e(strtoupper(substr($adminName, 0, 1))) ?></div>
             <div>
                 <strong><?= e($adminName) ?></strong>
-                <span>Kelola section Our Client</span>
+                <span>Kelola seluruh konten website</span>
             </div>
         </div>
     </aside>
 
-    <section class="dashboard-content dashboard-dark-board">
-        <header class="dashboard-dark-topbar admin-page-topbar">
+    <section class="dashboard-content dashboard-dark-board dashboard-board-classic">
+        <header class="dashboard-dark-topbar admin-page-topbar dashboard-topbar-classic">
             <div class="dashboard-dark-heading">
                 <h1><?= e($pageTitle) ?></h1>
                 <p><?= e($pageDescription) ?></p>
             </div>
             <div class="dashboard-dark-tools">
-                <a class="dashboard-tool-chip" href="/#clients" target="_blank" rel="noreferrer">Preview</a>
-                <a class="dashboard-tool-primary" href="/admin/clients">Manage Client</a>
+                <a class="dashboard-tool-chip" href="/" target="_blank" rel="noreferrer">Preview</a>
+                <a class="dashboard-tool-primary" href="/admin/dashboard">Dashboard</a>
             </div>
         </header>
 
